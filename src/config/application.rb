@@ -21,5 +21,12 @@ module App
 
     # 日本語設定
     config.i18n.default_locale = :ja
+
+    # 外部cssの読み込み設定
+    config.assets.paths << config.root.join("vendor/assets/javascripts")
+    config.assets.paths << config.root.join("vendor/assets/stylesheets")
+
+    # プリコンパイル設定
+    config.assets.initialize_on_precompile = false
   end
 end

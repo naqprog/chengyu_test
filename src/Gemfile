@@ -43,14 +43,21 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
 # 追加実装
-gem "devise"
 
+# 認証
+gem "devise"
+# 管理画面
+gem "activeadmin"
+# 環境変数設定
+gem 'dotenv-rails'
+
+# 日本語関連
 gem 'devise-i18n'
 gem 'devise-i18n-views'
 

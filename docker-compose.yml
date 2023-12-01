@@ -18,3 +18,5 @@ services:
       RAILS_ENV: development
     depends_on:
       - db
+    env_file:
+      - .env
