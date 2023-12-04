@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_02_053501) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_03_072234) do
+  create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "chengyu_jianti", null: false
+    t.string "chengyu_fanti", null: false
+    t.string "pinyin", null: false
+    t.text "mean", null: false
+    t.integer "source", default: 0, null: false
+    t.integer "level", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chengyu_fanti"], name: "index_questions_on_chengyu_fanti", unique: true
+    t.index ["chengyu_jianti"], name: "index_questions_on_chengyu_jianti", unique: true
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
