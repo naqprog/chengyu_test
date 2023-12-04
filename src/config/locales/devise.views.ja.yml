@@ -7,8 +7,16 @@ ja:
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "ログインを記憶"
+      question:
+        chengyu_jianti: "簡体字"
+        chengyu_fanti: "繁体字"
+        pinyin: "ピンイン"
+        mean: "意味"
+        source: "出典元"
+        level: "レベル"
     models:
       user: "ユーザ"
+      question: "問題"
   devise:
     confirmations:
       new:

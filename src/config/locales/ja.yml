@@ -6,6 +6,10 @@ ja:
       role:
         general: '一般'
         admin: '管理者'
+    question:
+      source:
+        default: 'その他'
+        jujuyouyisi: '成語句句有意思'
   # 日付系
   date:
     abbr_day_names:
@@ -182,6 +186,7 @@ ja:
       odd: は奇数にしてください
       other_than: は%{count}以外の値にしてください
       present: は入力しないでください
+      record_invalid: "バリデーションに失敗しました: %{errors}"
       required: を入力してください
       taken: はすでに存在します
       too_long: は%{count}文字以内で入力してください
