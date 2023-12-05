@@ -1,0 +1,27 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC&family=Noto+Serif+TC&display=swap" rel="stylesheet">
+
+<style>
+.notosanssc {
+  font-family: 'Noto Serif SC', serif;
+}
+.notosanstc {
+  font-family: 'Noto Serif TC', serif;
+}
+  <% if user_signed_in? %>
+    <% if current_user.setting.letter_kind_jiantizi? %>
+      .notosans {
+        font-family: 'Noto Serif SC', serif;
+      }
+    <% else %>
+      .notosans {
+        font-family: 'Noto Serif TC', serif;
+      }
+    <% end %>
+  <% else %>
+    .notosans {
+      font-family: 'Noto Serif SC', serif;
+    }
+  <% end %>
+</style>

@@ -9,9 +9,16 @@ require 'csv'
 #   Character.create(name: "Luke", movie: movies.first)
 
 User.create!(
-   email: 'test@example.com',
-   password: 'password',
-   role: 1
+  :email => 'test@example.com',
+  :password => 'password',
+  :role => 1
+)
+
+Setting.create!(
+  :user_id => 1,
+  :letter_kind => 0,
+  :test_format => 0,
+  :test_kind => 0
 )
 
 CSV.foreach('db/seeds_data/question.csv', headers: true) do |question|

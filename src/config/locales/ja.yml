@@ -1,11 +1,42 @@
 # 日本語化テンプレ
 ja:
+  activerecord:
+    attributes:
+      user:
+        current_password: "現在のパスワード"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "確認用パスワード"
+        remember_me: "ログインを記憶"
+      setting:
+        user: "ユーザid"
+        letter_kind: "字体"
+        test_format: "問題方式"
+        test_kind: "問題内容"
+      question:
+        chengyu_jianti: "簡体字"
+        chengyu_fanti: "繁体字"
+        pinyin: "ピンイン"
+        mean: "意味"
+        other_answer_jianti: "別解：簡体字"
+        other_answer_fanti: "別解：繁体字"
+        other_answer_pinyin: "別解：ピンイン"
+        source: "出典元"
+        level: "レベル"
+    models:
+      user: "ユーザ"
+      setting: "ユーザ設定"
+      question: "問題"
   # enum_help
   enums:
     user:
       role:
         general: '一般'
         admin: '管理者'
+    setting:
+      letter_kind:
+        jiantizi: '簡体字'
+        fantizi: '繁体字'
     question:
       source:
         default: 'その他'

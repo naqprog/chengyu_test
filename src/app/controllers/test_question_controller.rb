@@ -1,10 +1,9 @@
 class TestQuestionController < ApplicationController
+
   def index
     # 変数定義
     @choices = [] # 選択肢用配列
     # 言語仮設定
-    @lang = 1 # 0なら簡体字、1なら繁体字
-    @JIANTIZI = 0
 
     # 現在の収録問題数を取得
     max_question = Question.count
@@ -13,7 +12,8 @@ class TestQuestionController < ApplicationController
     now_question = rand(max_question) + 1
     @question = Question.find(now_question)
 
-    if(@lang == @JIANTIZI)
+    # ログイン状況、言語設定を確認して「答え」を代入
+    if(search_lang())
       @true_answer = @question.chengyu_jianti
     else
       @true_answer = @question.chengyu_fanti
@@ -29,7 +29,7 @@ class TestQuestionController < ApplicationController
     # 選択肢が10文字になるまで適当に問題から取ってきて、選択肢の残り6文字に埋める
     while @choices.length < 10 do
       sel_question = rand_exclude(max_question, now_question) + 1 # 今の出題ではない問題から１問ランダムで選ぶ
-      if(@lang == @JIANTIZI)
+      if(search_lang())
         str = Question.find(sel_question).chengyu_jianti
       else
         str = Question.find(sel_question).chengyu_fanti
@@ -57,6 +57,17 @@ class TestQuestionController < ApplicationController
       rr = rand(max) # ランダムがexcと別のものになるまで繰り返す
     end
     return rr
+  end
+
+  # 言語設定の確認
+  def search_lang()
+    if user_signed_in?
+      # ユーザ設定情報を返す
+      return current_user.setting.letter_kind_jiantizi?
+    else
+      # デフォルトで簡体字を返す
+      return true
+    end
   end
 
 end

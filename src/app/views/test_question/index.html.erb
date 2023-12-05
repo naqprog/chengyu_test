@@ -1,21 +1,15 @@
 <h1><%= @question.id %></h1>
 
-<h1><%= safe_join(@question.mean.split("\n"),tag(:br)) %></h1>
-
-<h1><div class="notosanssc"><%= @question.chengyu_jianti %></div></h1>
-<h1><div class="notosanstc"><%= @question.chengyu_fanti %></div></h1>
-<h3><%= @question.pinyin %></h1>
-
-<%= @lang %>
-<% if @lang == @JIANTIZI %>
-<% langstr = "notosanssc" %>
-<% else %>
-<% langstr = "notosanstc" %>
-<% end %>
-
-<h1><div class=<%=langstr%>><%= @true_answer %></div></h1>
-
-<h1><div class=<%=langstr%>>
+<h1>[意味]<%= safe_join(@question.mean.split("\n"),tag(:br)) %></h1>
+<br />
+<h1>[簡体字]<div class="notosanssc"><%= @question.chengyu_jianti %></div></h1>
+<h1>[繁体字]<div class="notosanstc"><%= @question.chengyu_fanti %></div></h1>
+<h3>[ピンイン]<%= @question.pinyin %></h1>
+<br />
+<h1>----以下言語設定参照済----</h1>
+<h1>[答え]<div class="notosans"><%= @true_answer %></div></h1>
+<br />
+<h1>[問題作成]<div class="notosans">
 <% @choices.each do |c| %>
   <%= c %>
 <% end %>
