@@ -12,6 +12,9 @@ ja:
         chengyu_fanti: "繁体字"
         pinyin: "ピンイン"
         mean: "意味"
+        other_answer_jianti: "別解：簡体字"
+        other_answer_fanti: "別解：繁体字"
+        other_answer_pinyin: "別解：ピンイン"
         source: "出典元"
         level: "レベル"
     models:
