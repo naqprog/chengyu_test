@@ -5,6 +5,9 @@ one:
   chengyu_fanti: MyString
   pinyin: MyString
   mean: MyText
+  other_answer_jianti: MyString
+  other_answer_fanti: MyString
+  other_answer_pinyin: MyString
   source: 1
   level: 1
 
@@ -13,5 +16,8 @@ two:
   chengyu_fanti: MyString
   pinyin: MyString
   mean: MyText
+  other_answer_jianti: MyString
+  other_answer_fanti: MyString
+  other_answer_pinyin: MyString
   source: 1
   level: 1

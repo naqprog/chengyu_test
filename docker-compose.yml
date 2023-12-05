@@ -16,6 +16,8 @@ services:
       - "3000:3000"
     environment:
       RAILS_ENV: development
+    stdin_open: true
+    tty: true
     depends_on:
       - db
     env_file:
