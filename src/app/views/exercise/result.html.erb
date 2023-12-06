@@ -1,0 +1,14 @@
+<h1>[出された問題のid]<%= @question.id %></h1>
+
+<h1>[入力された答え]<div class="notosans"><%= @input_answer %></div></h1>
+
+<h1>[正しい答え]<div class="notosans"><%= @true_answer %></div></h1>
+
+<h1>[正答判定]</h1>
+<% if @input_answer == @true_answer %>
+  <h1>正解！</h1>
+<% else %>
+  <h1>残念、不正解！</h1>
+<% end %>
+
+<a class="btn btn-primary" href="exercise_ask" role="button">もう一度！</a>
