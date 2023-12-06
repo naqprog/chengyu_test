@@ -1,0 +1,24 @@
+<h1><%= @question.id %></h1>
+<h1>[簡体字]<div class="notosanssc"><%= @question.chengyu_jianti %></div></h1>
+<h1>[繁体字]<div class="notosanstc"><%= @question.chengyu_fanti %></div></h1>
+<h3>[ピンイン]<%= @question.pinyin %></h1>
+<br />
+<h1>----ここから想定の問題ページ----</h1>
+<h1>[意味]<%= safe_join(@question.mean.split("\n"),tag(:br)) %></h1>
+<br />
+<h1>[問題作成]<div class="notosans">
+<% @choices.each do |c| %>
+  <%= c %>
+<% end %>
+
+<%= form_tag("/exercise_judgement", method: :post) do %>
+  <input type="hidden" name="question_id" value="<%= @question.id %>" />
+
+  <div class="form-group">
+    <label for="answer">答えを入力してください</label>
+    <input type=”text” class="form-control" name="input_answer">
+  </div>
+  <button type="submit" class="btn btn-primary">回答する</button>
+<% end %>
+
+</div></h1>

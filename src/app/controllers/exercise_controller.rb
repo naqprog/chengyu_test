@@ -1,9 +1,8 @@
-class TestQuestionController < ApplicationController
+class ExerciseController < ApplicationController
 
-  def index
+  def ask
     # 変数定義
     @choices = [] # 選択肢用配列
-    # 言語仮設定
 
     # 現在の収録問題数を取得
     max_question = Question.count
@@ -13,11 +12,7 @@ class TestQuestionController < ApplicationController
     @question = Question.find(now_question)
 
     # ログイン状況、言語設定を確認して「答え」を代入
-    if(search_lang())
-      @true_answer = @question.chengyu_jianti
-    else
-      @true_answer = @question.chengyu_fanti
-    end
+    @true_answer = true_answer_check_lang(@question.chengyu_jianti, @question.chengyu_fanti)
 
     # 問題の答えを、重複を確認しながら配列に挿入する
     arr = @true_answer.dup
@@ -28,7 +23,8 @@ class TestQuestionController < ApplicationController
 
     # 選択肢が10文字になるまで適当に問題から取ってきて、選択肢の残り6文字に埋める
     while @choices.length < 10 do
-      sel_question = rand_exclude(max_question, now_question) + 1 # 今の出題ではない問題から１問ランダムで選ぶ
+      # 今の出題ではない問題から１問ランダムで選ぶ
+      sel_question = rand_exclude(max_question, now_question) + 1
       if(search_lang())
         str = Question.find(sel_question).chengyu_jianti
       else
@@ -42,12 +38,40 @@ class TestQuestionController < ApplicationController
 
   end
 
+  def judgement
+    # formからデータ引き継ぎ
+    input_answer = params[:input_answer]
+    question = Question.find(params[:question_id])
+
+    # ログイン状況、言語設定を確認して「答え」を代入
+    true_answer = true_answer_check_lang(question.chengyu_jianti, question.chengyu_fanti)
+
+    ###
+    # 本当はここでデータベース処理を行う
+    ###
+
+    # redirectするために変数引き継ぎ
+    flash[:question_id] = question.id
+    flash[:input_answer] = input_answer
+    flash[:true_answer] = true_answer
+    redirect_to action: :result
+  end
+
+  def result
+    # judgementからデータ引き継ぎ
+    @question = Question.find(flash[:question_id])
+    @input_answer = flash[:input_answer]
+    @true_answer = flash[:true_answer]
+  end
+
+  private
+
   # すでにその漢字があるかどうかを判定し、なかったら配列に追加する
-  def choices_no_duplication(ar, st)
-    if(ar.include?(st))
+  def choices_no_duplication(arr, str)
+    if(arr.include?(str))
       return
     end
-    ar << st
+    arr << str
   end
 
   # 指定された数を除外したランダム
@@ -57,6 +81,15 @@ class TestQuestionController < ApplicationController
       rr = rand(max) # ランダムがexcと別のものになるまで繰り返す
     end
     return rr
+  end
+
+  # 言語設定を利用して「正しい答え」を出力
+  def true_answer_check_lang(chengyu_jianti, chengyu_fanti)
+    if(search_lang())
+      return chengyu_jianti
+    else
+      return chengyu_fanti
+    end
   end
 
   # 言語設定の確認
