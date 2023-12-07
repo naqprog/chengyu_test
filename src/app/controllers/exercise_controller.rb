@@ -42,13 +42,17 @@ class ExerciseController < ApplicationController
     # formからデータ引き継ぎ
     input_answer = params[:input_answer]
     question = Question.find(params[:question_id])
-
+    
     # ログイン状況、言語設定を確認して「答え」を代入
     true_answer = true_answer_check_lang(question.chengyu_jianti, question.chengyu_fanti)
 
-    ###
-    # 本当はここでデータベース処理を行う
-    ###
+    # データベース処理
+    Response.create(
+      test_format: user_signed_in? ? current_user.setting.test_format : 0,
+      correct: input_answer == true_answer ? true : false,
+      user_id: user_signed_in? ? current_user.id : nil,
+      question_id: params[:question_id]
+    )
 
     # redirectするために変数引き継ぎ
     flash[:question_id] = question.id
