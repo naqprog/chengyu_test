@@ -23,6 +23,11 @@ ja:
         other_answer_pinyin: "別解：ピンイン"
         source: "出典元"
         level: "レベル"
+      response:
+        user: "ユーザid"
+        question: "問題id"
+        test_format: "問題方式"
+        correct: "正解したか"
     models:
       user: "ユーザ"
       setting: "ユーザ設定"
