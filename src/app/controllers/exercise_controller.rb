@@ -35,7 +35,8 @@ class ExerciseController < ApplicationController
 
     # 選択肢をシャッフルする
     @choices.shuffle!
-
+    # 引き渡しのため連結データを作る
+    @choices_join = @choices.join
   end
 
   def judgement
@@ -45,6 +46,15 @@ class ExerciseController < ApplicationController
     
     # ログイン状況、言語設定を確認して「答え」を代入
     true_answer = true_answer_check_lang(question.chengyu_jianti, question.chengyu_fanti)
+
+    # 回答文字数が足りなかったらエラーで戻す
+    if(input_answer.length < 4)
+      flash.now[:danger] = "回答の文字数が足りません"
+      @question = question
+      @choices = params[:choices_join].chars
+      @input_answer = input_answer
+      render :ask and return
+    end
 
     # データベース処理
     Response.create(

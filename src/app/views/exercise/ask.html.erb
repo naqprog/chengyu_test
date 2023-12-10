@@ -1,24 +1,51 @@
-<h1><%= @question.id %></h1>
-<h1>[簡体字]<div class="notosanssc"><%= @question.chengyu_jianti %></div></h1>
-<h1>[繁体字]<div class="notosanstc"><%= @question.chengyu_fanti %></div></h1>
-<h3>[ピンイン]<%= @question.pinyin %></h1>
+<%= @question.id %>
 <br />
-<h1>----ここから想定の問題ページ----</h1>
-<h1>[意味]<%= safe_join(@question.mean.split("\n"),tag(:br)) %></h1>
+[簡体字]<div class="notosanssc"><%= @question.chengyu_jianti %></div>
+[繁体字]<div class="notosanstc"><%= @question.chengyu_fanti %></div>
+[ピンイン]<br />
+<%= @question.pinyin %>
 <br />
-<h1>[問題作成]<div class="notosans">
-<% @choices.each do |c| %>
-  <%= c %>
-<% end %>
+<br />
+----ここから想定の問題ページ---- <br />
+[意味]<%= safe_join(@question.mean.split("\n"),tag(:br)) %>
+<br />
+[問題作成]
+<div class="notosans">
+  <% @choices.each do |c| %>
+    <button type="button" class="btn btn-primary btn-lg" onclick="InputAnswerText('<%= c %>');">
+      <%= c %>
+    </button>
+  <% end %>
+</div>
 
-<%= form_tag("/exercise_judgement", method: :post) do %>
+<button type="button" class="btn btn-danger btn-lg" onclick="DeleteAnswerText();">一字削除</button>
+
+<%= form_with(url: exercise_judgement_path, local: true, data: { turbo: false }) do |f| %>
   <input type="hidden" name="question_id" value="<%= @question.id %>" />
-
+  <input type="hidden" name="choices_join" value="<%= @choices_join %>" />
+  <input type="hidden" name="input_answer" value="<%= @input_answer %>" />
+  
   <div class="form-group">
-    <label for="answer">答えを入力してください</label>
-    <input type=”text” class="form-control" name="input_answer">
+    <label for="answer">４文字で答えを入力してください</label>
+    <input type=”text” class="form-control" name="input_answer" id="input_answer" value="<%= @input_answer %>" readonly>
   </div>
   <button type="submit" class="btn btn-primary">回答する</button>
 <% end %>
 
-</div></h1>
+<script>
+  function InputAnswerText(str){
+    var elem = document.getElementById("input_answer");
+    if(elem.value.length < 4) {
+      elem.value = elem.value + str;
+    }
+  }
+
+  function DeleteAnswerText(){
+    var elem = document.getElementById("input_answer");
+    elem.value = elem.value.slice( 0, -1 );
+  }
+
+
+</script>
+
+</div>

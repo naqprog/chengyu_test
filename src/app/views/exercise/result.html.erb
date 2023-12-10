@@ -6,9 +6,9 @@
 
 <h1>[正答判定]</h1>
 <% if @input_answer == @true_answer %>
-  <h1>正解！</h1>
+  <h1><font color="red">正解！</font></h1>
 <% else %>
-  <h1>残念、不正解！</h1>
+  <h1><font color="blue">残念、不正解！</font></h1>
 <% end %>
 
 <a class="btn btn-primary" href="exercise_ask" role="button">もう一度！</a>
