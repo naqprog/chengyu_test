@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_07_173429) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_10_133428) do
   create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "chengyu_jianti", null: false
     t.string "chengyu_fanti", null: false
@@ -48,6 +48,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_07_173429) do
     t.index ["user_id"], name: "index_settings_on_user_id", unique: true
   end
 
+  create_table "synonyms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "question_another_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_another_id"], name: "index_synonyms_on_question_another_id"
+    t.index ["question_id", "question_another_id"], name: "index_synonyms_on_question_id_and_question_another_id", unique: true
+    t.index ["question_id"], name: "index_synonyms_on_question_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -64,4 +74,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_07_173429) do
   add_foreign_key "responses", "questions"
   add_foreign_key "responses", "users"
   add_foreign_key "settings", "users"
+  add_foreign_key "synonyms", "questions"
+  add_foreign_key "synonyms", "questions", column: "question_another_id"
 end

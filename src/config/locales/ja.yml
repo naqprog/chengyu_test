@@ -28,10 +28,15 @@ ja:
         question: "問題id"
         test_format: "問題方式"
         correct: "正解したか"
+      synonym:
+        question: "類義語その１"
+        question_another_id: "類義語その２"
     models:
       user: "ユーザ"
       setting: "ユーザ設定"
       question: "問題"
+      response: "回答"
+      synonym: "類義語"
   # enum_help
   enums:
     user:
