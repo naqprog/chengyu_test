@@ -34,6 +34,16 @@ CSV.foreach('db/seeds_data/question.csv', headers: true) do |question|
     :source => question[8], 
     :level => question[9], 
     :created_at => question[10], 
-    :updated_at => question[11], 
+    :updated_at => question[11]
   )
+end
+
+CSV.foreach('db/seeds_data/synonym.csv', headers: true) do |synonym|
+  Synonym.create(
+    # idは不要だから[0]は無視
+    :question_id => synonym[1], 
+    :question_another_id => synonym[2], 
+    :created_at => synonym[3], 
+    :updated_at => synonym[4]
+  )  
 end
