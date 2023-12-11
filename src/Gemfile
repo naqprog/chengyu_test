@@ -53,6 +53,9 @@ gem "sassc-rails"
 
 # 追加実装
 
+# 定数管理
+gem 'config'
+
 # 認証
 gem "devise"
 # 環境変数設定

@@ -11,8 +11,29 @@ class ExerciseController < ApplicationController
     now_question = rand(max_question) + 1
     @question = Question.find(now_question)
 
+    # 今回用いる言語設定を言語設定や強制フラグから選択
+    @use_letter_kind = 0 # 今回利用される言語設定
+
+      if(params[:force_letter_kind])
+        # リンクの情報から強制言語指定を確認
+      if( params[:force_letter_kind] == "jiantizi" )
+        @use_letter_kind = Constants.letter_kind.jiantizi
+      else
+        @use_letter_kind = Constants.letter_kind.fantizi
+      end
+    else
+      if user_signed_in?
+        # ユーザ設定情報から設定抽出
+        @use_letter_kind = Setting.letter_kinds[current_user.setting.letter_kind]
+#        @use_letter_kind = current_user.setting.letter_kind_before_type_cast # ハッシュのキーではなく値を入れる
+      else
+        # 例外を吐き出す
+        raise RuntimeError, "サインインしてないのに出題に言語強制指定フラグが使われていない"
+      end 
+    end
+
     # ログイン状況、言語設定を確認して「答え」を代入
-    @true_answer = true_answer_check_lang(@question.chengyu_jianti, @question.chengyu_fanti)
+    @true_answer = true_answer_check_lang(@use_letter_kind, @question.chengyu_jianti, @question.chengyu_fanti)
 
     # 問題の答えを、重複を確認しながら配列に挿入する
     arr = @true_answer.dup
@@ -25,7 +46,7 @@ class ExerciseController < ApplicationController
     while @choices.length < 10 do
       # 今の出題ではない問題から１問ランダムで選ぶ
       sel_question = rand_exclude(max_question, now_question) + 1
-      if(search_lang())
+      if( @use_letter_kind == Constants.letter_kind.jiantizi )
         str = Question.find(sel_question).chengyu_jianti
       else
         str = Question.find(sel_question).chengyu_fanti
@@ -43,9 +64,10 @@ class ExerciseController < ApplicationController
     # formからデータ引き継ぎ
     input_answer = params[:input_answer]
     question = Question.find(params[:question_id])
+    use_letter_kind = params[:use_letter_kind]
     
     # ログイン状況、言語設定を確認して「答え」を代入
-    true_answer = true_answer_check_lang(question.chengyu_jianti, question.chengyu_fanti)
+    true_answer = true_answer_check_lang(use_letter_kind, question.chengyu_jianti, question.chengyu_fanti)
 
     # 回答文字数が足りなかったらエラーで戻す
     if(input_answer.length < 4)
@@ -98,22 +120,11 @@ class ExerciseController < ApplicationController
   end
 
   # 言語設定を利用して「正しい答え」を出力
-  def true_answer_check_lang(chengyu_jianti, chengyu_fanti)
-    if(search_lang())
+  def true_answer_check_lang(lang, chengyu_jianti, chengyu_fanti)
+    if(lang == Constants.letter_kind.jiantizi)
       return chengyu_jianti
     else
       return chengyu_fanti
-    end
-  end
-
-  # 言語設定の確認
-  def search_lang()
-    if user_signed_in?
-      # ユーザ設定情報を返す
-      return current_user.setting.letter_kind_jiantizi?
-    else
-      # デフォルトで簡体字を返す
-      return true
     end
   end
 
