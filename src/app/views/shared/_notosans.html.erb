@@ -20,8 +20,20 @@
       }
     <% end %>
   <% else %>
-    .notosans {
-      font-family: 'Noto Serif SC', serif;
-    }
+    <% if defined? @use_letter_kind %>
+      <% if @use_letter_kind == Constants.letter_kind.jiantizi %>
+      .notosans {
+        font-family: 'Noto Serif SC', serif;
+      }
+      <% else %>
+        .notosans {
+          font-family: 'Noto Serif TC', serif;
+        }
+      <% end %>
+    <% else %>
+      .notosans {
+        font-family: 'Noto Serif SC', serif;
+      }
+    <% end %>
   <% end %>
 </style>

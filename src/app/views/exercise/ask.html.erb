@@ -1,15 +1,8 @@
-<%= @question.id %>
-<br />
-[簡体字]<div class="notosanssc"><%= @question.chengyu_jianti %></div>
-[繁体字]<div class="notosanstc"><%= @question.chengyu_fanti %></div>
-[ピンイン]<br />
-<%= @question.pinyin %>
-<br />
-<br />
-----ここから想定の問題ページ---- <br />
+[問題ID]<%= @question.id %><br />
 [意味]<%= safe_join(@question.mean.split("\n"),tag(:br)) %>
 <br />
-[問題作成]
+<br />
+[文字をタップして、成語を作成してください(文字は重複する可能性があります)]
 <div class="notosans">
   <% @choices.each do |c| %>
     <button type="button" class="btn btn-primary btn-lg" onclick="InputAnswerText('<%= c %>');">
@@ -18,7 +11,7 @@
   <% end %>
 </div>
 
-<button type="button" class="btn btn-danger btn-lg" onclick="DeleteAnswerText();">一字削除</button>
+<button type="button" class="btn btn-warning btn-lg" onclick="DeleteAnswerText();">一字削除</button>
 
 <%= form_with(url: exercise_judgement_path, local: true) do |f| %>
   <input type="hidden" name="question_id" value="<%= @question.id %>" />

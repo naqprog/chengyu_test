@@ -9,13 +9,26 @@ require 'csv'
 #   Character.create(name: "Luke", movie: movies.first)
 
 User.create!(
-  :email => 'test@example.com',
+  :email => 'testj@example.com',
   :password => 'password',
-  :role => 1
+  :role => Constants.role.admin
 )
 
 Setting.create!(
   :user_id => 1,
+  :letter_kind => Constants.letter_kind.jiantizi,
+  :test_format => 0,
+  :test_kind => 0
+)
+
+User.create!(
+  :email => 'testf@example.com',
+  :password => 'password',
+  :role => Constants.role.admin
+)
+
+Setting.create!(
+  :user_id => 2,
   :letter_kind => Constants.letter_kind.fantizi,
   :test_format => 0,
   :test_kind => 0
