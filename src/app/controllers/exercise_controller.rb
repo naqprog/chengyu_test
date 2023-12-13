@@ -75,7 +75,7 @@ class ExerciseController < ApplicationController
       @question = question
       @choices = params[:choices_join].chars
       @input_answer = input_answer
-      render :ask and return
+      render :ask, status: :unprocessable_entity and return
     end
 
     # データベース処理
