@@ -4,6 +4,7 @@ class CreateResponses < ActiveRecord::Migration[7.0]
       t.references :user, foreign_key: true
       t.references :question, null: false, foreign_key: true
       t.integer :test_format, default: 0, null: false
+      t.integer :test_kind, default: 0, null: false
       t.boolean :correct, default: false, null: false
 
       t.timestamps

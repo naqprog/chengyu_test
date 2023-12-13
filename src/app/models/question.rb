@@ -5,4 +5,13 @@ class Question < ApplicationRecord
   }
 
   has_many :synonyms, dependent: :destroy
+
+  def chengyu_lang_setting(lang_setting)
+    if(lang_setting == Constants.letter_kind.jiantizi)
+      return chengyu_jianti
+    else
+      return chengyu_fanti
+    end
+  end
+
 end

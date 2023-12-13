@@ -1,3 +1,12 @@
+ask:
+  chengyu_question_select_num: 10
+  mean_question_select_num: 4
+role:
+  general: 0
+  admin: 1
 letter_kind:
   jiantizi: 0
   fantizi: 1
+test_kind:
+  chengyu: 0
+  mean: 1

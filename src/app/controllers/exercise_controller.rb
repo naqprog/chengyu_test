@@ -7,33 +7,16 @@ class ExerciseController < ApplicationController
     # 現在の収録問題数を取得
     max_question = Question.count
 
-    # ランダムで１問選ぶ
+    # ランダムで出題する１問を選ぶ
     now_question = rand(max_question) + 1
     @question = Question.find(now_question)
 
-    # 今回用いる言語設定を言語設定や強制フラグから選択
-    @use_letter_kind = 0 # 今回利用される言語設定
-
-      if(params[:force_letter_kind])
-        # リンクの情報から強制言語指定を確認
-      if( params[:force_letter_kind] == "jiantizi" )
-        @use_letter_kind = Constants.letter_kind.jiantizi
-      else
-        @use_letter_kind = Constants.letter_kind.fantizi
-      end
-    else
-      if user_signed_in?
-        # ユーザ設定情報から設定抽出
-        @use_letter_kind = Setting.letter_kinds[current_user.setting.letter_kind]
-#        @use_letter_kind = current_user.setting.letter_kind_before_type_cast # ハッシュのキーではなく値を入れる
-      else
-        # 例外を吐き出す
-        raise RuntimeError, "サインインしてないのに出題に言語強制指定フラグが使われていない"
-      end 
-    end
+    # 今回用いる言語設定を言語設定や強制フラグから選択して
+    # @use_letter_kindに代入する
+    set_use_letter_kind
 
     # ログイン状況、言語設定を確認して「答え」を代入
-    @true_answer = true_answer_check_lang(@use_letter_kind, @question.chengyu_jianti, @question.chengyu_fanti)
+    @true_answer = @question.chengyu_lang_setting(@use_letter_kind)
 
     # 問題の答えを、重複を確認しながら配列に挿入する
     arr = @true_answer.dup
@@ -43,7 +26,8 @@ class ExerciseController < ApplicationController
     end
 
     # 選択肢が10文字になるまで適当に問題から取ってきて、選択肢の残り6文字に埋める
-    while @choices.length < 10 do
+    # 選択肢の数はconfigで定数定義
+    while @choices.length < Constants.ask.chengyu_question_select_num do
       # 今の出題ではない問題から１問ランダムで選ぶ
       sel_question = rand_exclude(max_question, now_question) + 1
       if( @use_letter_kind == Constants.letter_kind.jiantizi )
@@ -61,13 +45,14 @@ class ExerciseController < ApplicationController
   end
 
   def judgement
+
     # formからデータ引き継ぎ
     input_answer = params[:input_answer]
     question = Question.find(params[:question_id])
     use_letter_kind = params[:use_letter_kind]
     
     # ログイン状況、言語設定を確認して「答え」を代入
-    true_answer = true_answer_check_lang(use_letter_kind, question.chengyu_jianti, question.chengyu_fanti)
+    true_answer = question.chengyu_lang_setting(use_letter_kind)
 
     # 回答文字数が足りなかったらエラーで戻す
     if(input_answer.length < 4)
@@ -81,6 +66,7 @@ class ExerciseController < ApplicationController
     # データベース処理
     Response.create(
       test_format: user_signed_in? ? current_user.setting.test_format : 0,
+      test_kind: Constants.test_kind.chengyu,
       correct: input_answer == true_answer ? true : false,
       user_id: user_signed_in? ? current_user.id : nil,
       question_id: params[:question_id]
@@ -100,7 +86,113 @@ class ExerciseController < ApplicationController
     @true_answer = flash[:true_answer]
   end
 
-  private
+  def ask_mean
+    # 変数定義
+    @choices    = [] # 選択肢用配列
+
+    # 現在の収録問題数を取得
+    max_question = Question.count
+
+    # ランダムで出題する１問を選ぶ
+    now_question = rand(max_question) + 1
+    @question = Question.find(now_question)
+
+    # 今回用いる言語設定を言語設定や強制フラグから選択して
+    # @use_letter_kindに代入する
+    set_use_letter_kind
+
+    # 「正答」となる問題(Question型)を選択肢(のテンポラリ変数)に入れる
+    @choices << @question
+
+    # その他、選択肢が4問になるまで適当に問題から取ってくる
+    # 選択肢の数はconfigで定数定義
+    while @choices.length < Constants.ask.mean_question_select_num do
+      # 無限ループ注意
+      loop do
+        # 今の出題ではない問題から１問ランダムで選ぶ
+        tmp_question = Question.find(rand_exclude(max_question, now_question) + 1)
+        # ランダムで選んで来た問題が、出題される問題と「同義語」でないかチェック
+        if(Synonym.same_check(@question.id, tmp_question.id))
+          # チェックOKなので選択肢に追加する
+          @choices << tmp_question
+          break # loopをbreakして次の選択肢を選ぶ
+        end # falseなら問題選び直し
+      end
+    end
+
+    # 選択肢をシャッフルする
+    @choices.shuffle!
+
+  end
+
+  def judgement_mean
+    # 変数定義
+    @choices = []
+
+    # formからデータ引き継ぎ
+    @question = Question.find(params[:question_id])
+    @use_letter_kind = params[:use_letter_kind]
+
+    for num in 0..Constants.ask.mean_question_select_num - 1
+      @choices << Question.find(params[:choices_id][num])
+    end
+
+    # 回答が選択されてなかったらエラーで戻す
+    if(params[:input_answer_id] == nil)
+      flash.now[:danger] = "回答が選択されていません"
+      render :ask_mean, status: :unprocessable_entity and return
+    else
+      # 回答が見つかった
+      @input_answer = Question.find(params[:input_answer_id])
+    end
+
+    # データベース処理
+    Response.create(
+      test_format: user_signed_in? ? current_user.setting.test_format : 0,
+      test_kind: Constants.test_kind.mean,
+      correct: @input_answer.id == @question.id ? true : false,
+      user_id: user_signed_in? ? current_user.id : nil,
+      question_id: @question.id
+    )
+
+    # redirectするために変数引き継ぎ
+    flash[:question_id] = @question.id
+    flash[:input_answer_id] = @input_answer.id
+    flash[:use_letter_kind] = @use_letter_kind
+    redirect_to action: :result_mean
+  end
+
+  def result_mean
+    # judgement_meanからデータ引き継ぎ
+    @question = Question.find(flash[:question_id])
+    @input_answer = Question.find(flash[:input_answer_id])
+    @use_letter_kind = flash[:use_letter_kind]
+  end
+
+  private  
+
+  # 今回用いる言語設定を言語設定や強制フラグから選択して
+  # @use_letter_kindに代入する
+  def set_use_letter_kind
+    @use_letter_kind = 0 # 今回利用される言語設定
+
+    if(params[:force_letter_kind])
+        # リンクの情報から強制言語指定を確認
+      if( params[:force_letter_kind] == "jiantizi" )
+        @use_letter_kind = Constants.letter_kind.jiantizi
+      else
+        @use_letter_kind = Constants.letter_kind.fantizi
+      end
+    else
+      if user_signed_in?
+        # ユーザ設定情報から設定抽出
+        @use_letter_kind = Setting.letter_kinds[current_user.setting.letter_kind]
+      else
+        # 例外を吐き出す
+        raise RuntimeError, "サインインしてないのに出題に言語強制指定フラグが使われていない"
+      end 
+    end
+  end
 
   # すでにその漢字があるかどうかを判定し、なかったら配列に追加する
   def choices_no_duplication(arr, str)
@@ -113,19 +205,11 @@ class ExerciseController < ApplicationController
   # 指定された数を除外したランダム
   def rand_exclude(max, exc)
     rr = exc
+    # 無限ループ注意
     while rr == exc do
       rr = rand(max) # ランダムがexcと別のものになるまで繰り返す
     end
     return rr
-  end
-
-  # 言語設定を利用して「正しい答え」を出力
-  def true_answer_check_lang(lang, chengyu_jianti, chengyu_fanti)
-    if(lang == Constants.letter_kind.jiantizi)
-      return chengyu_jianti
-    else
-      return chengyu_fanti
-    end
   end
 
 end
