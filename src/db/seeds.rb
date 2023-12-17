@@ -31,7 +31,7 @@ Setting.create!(
   :user_id => 2,
   :letter_kind => Constants.letter_kind.fantizi,
   :test_format => 0,
-  :test_kind => 0
+  :test_kind => 1
 )
 
 CSV.foreach('db/seeds_data/question.csv', headers: true) do |question|

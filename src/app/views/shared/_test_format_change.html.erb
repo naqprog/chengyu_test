@@ -1,0 +1,13 @@
+現在の設定<br />
+<small>
+<% if user_signed_in? %>
+  <% case Setting.test_kinds[current_user.setting.test_kind]
+    when Constants.test_kind.default %>
+      全ての問題から出題する<br />
+    <% when Constants.test_kind.mistake %>
+    過去間違えた問題から出題する<br />
+  <% end %>
+<% else %>
+  ログインすると回答記録が保存され、間違った問題を復習できるようになります。<br />
+<% end %>
+</small>
