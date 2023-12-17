@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
-  <%= link_to "出題する", exercise_ask_path, class: "btn btn-primary btn-lg" %>
+  <%= link_to "出題する", exercise_ask_path(), class: "btn btn-primary btn-lg" %>
 <% else %>
-  <%= link_to "簡体字で出題する", exercise_ask_path(force_letter_kind: "jiantizi"), class: "btn btn-primary btn-lg" %>
-  <%= link_to "繁体字で出題する", exercise_ask_path(force_letter_kind: "fantizi"), class: "btn btn-primary btn-lg" %>
+  <%= link_to "簡体字で出題する", exercise_ask_path(force_letter_kind: Constants.letter_kind.jiantizi), class: "btn btn-primary btn-lg" %>
+  <%= link_to "繁体字で出題する", exercise_ask_path(force_letter_kind: Constants.letter_kind.fantizi), class: "btn btn-primary btn-lg" %>
 <% end %>

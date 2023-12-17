@@ -7,8 +7,29 @@ class ExerciseController < ApplicationController
     # 現在の収録問題数を取得
     max_question = Question.count
 
+    # ユーザの設定から出題種類を調べる
+    if(user_signed_in?)
+      kind = Setting.test_kinds[current_user.setting.test_kind]
+    else
+      kind = Constants.test_kind.default
+    end
+
     # ランダムで出題する１問を選ぶ
-    now_question = rand(max_question) + 1
+    case kind
+    when Constants.test_kind.default
+      now_question = rand(max_question) + 1
+    when Constants.test_kind.mistake
+      # 1問も過去に回答したことがなかったらエラーで返す
+      unless(Response.exists?(user_id: current_user.id))
+        flash[:danger] = "今までに一度も回答されたことがありません"
+        return redirect_to root_path
+      end
+      now_question = choice_mistake_question(Constants.test_kind.mistake) + 1
+    else
+      # 例外を吐き出す
+      raise RuntimeError, "ユーザ設定の出題種類設定がおかしい"
+    end
+
     @question = Question.find(now_question)
 
     # 今回用いる言語設定を言語設定や強制フラグから選択して
@@ -66,7 +87,7 @@ class ExerciseController < ApplicationController
     # データベース処理
     Response.create(
       test_format: user_signed_in? ? current_user.setting.test_format : 0,
-      test_kind: Constants.test_kind.chengyu,
+      test_kind: Constants.test_format.chengyu,
       correct: input_answer == true_answer ? true : false,
       user_id: user_signed_in? ? current_user.id : nil,
       question_id: params[:question_id]
@@ -111,11 +132,14 @@ class ExerciseController < ApplicationController
       loop do
         # 今の出題ではない問題から１問ランダムで選ぶ
         tmp_question = Question.find(rand_exclude(max_question, now_question) + 1)
-        # ランダムで選んで来た問題が、出題される問題と「同義語」でないかチェック
-        if(Synonym.same_check(@question.id, tmp_question.id))
-          # チェックOKなので選択肢に追加する
-          @choices << tmp_question
-          break # loopをbreakして次の選択肢を選ぶ
+        # 選ばれたidが既に選ばれている選択肢のidとかぶらない
+        if(@choices.any? { |v| v.id != tmp_question })
+          # ランダムで選んで来た問題が、出題される問題と「同義語」でないかチェック
+          if(Synonym.same_check(@question.id, tmp_question.id))
+            # チェックOKなので選択肢に追加する
+            @choices << tmp_question
+            break # loopをbreakして次の選択肢を選ぶ
+          end
         end # falseなら問題選び直し
       end
     end
@@ -149,7 +173,7 @@ class ExerciseController < ApplicationController
     # データベース処理
     Response.create(
       test_format: user_signed_in? ? current_user.setting.test_format : 0,
-      test_kind: Constants.test_kind.mean,
+      test_kind: Constants.test_format.mean,
       correct: @input_answer.id == @question.id ? true : false,
       user_id: user_signed_in? ? current_user.id : nil,
       question_id: @question.id
@@ -177,12 +201,8 @@ class ExerciseController < ApplicationController
     @use_letter_kind = 0 # 今回利用される言語設定
 
     if(params[:force_letter_kind])
-        # リンクの情報から強制言語指定を確認
-      if( params[:force_letter_kind] == "jiantizi" )
-        @use_letter_kind = Constants.letter_kind.jiantizi
-      else
-        @use_letter_kind = Constants.letter_kind.fantizi
-      end
+      # リンクの情報から強制言語指定を確認
+      @use_letter_kind = params[:force_letter_kind].to_i
     else
       if user_signed_in?
         # ユーザ設定情報から設定抽出
@@ -194,7 +214,21 @@ class ExerciseController < ApplicationController
     end
   end
 
-  # すでにその漢字があるかどうかを判定し、なかったら配列に追加する
+  # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
+  def choice_mistake_question(test_format)
+    # 自分が、テストの種類(成語を聞くか、意味を聞くか)がtest_kindで間違った記録を抽出
+    arr = []
+    my_mis = Response.where(user_id: current_user.id).where(test_format: test_format)
+    # 間違えた全部の回のIDを一時的に配列へ
+    my_mis.each do |mis|
+      arr << mis.question_id
+    end
+    # 配列のIDを重複がないようにする
+    arr.uniq!
+    return my_mis[rand(arr.length)].question_id
+  end
+
+  # すでにその文字列があるかどうかを判定し、なかったら配列に追加する
   def choices_no_duplication(arr, str)
     if(arr.include?(str))
       return

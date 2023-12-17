@@ -7,6 +7,12 @@ role:
 letter_kind:
   jiantizi: 0
   fantizi: 1
-test_kind:
+letter_kind_string:
+  jiantizi: "jiantizi"
+  jiantizi: "fantizi"
+test_format:
   chengyu: 0
   mean: 1
+test_kind:
+  default: 0
+  mistake: 1

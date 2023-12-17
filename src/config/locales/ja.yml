@@ -11,8 +11,8 @@ ja:
       setting:
         user: "ユーザid"
         letter_kind: "字体"
-        test_format: "問題方式"
         test_kind: "問題内容"
+        test_format: "問題方式"
       question:
         chengyu_jianti: "簡体字"
         chengyu_fanti: "繁体字"
