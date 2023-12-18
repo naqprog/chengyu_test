@@ -1,0 +1,65 @@
+<h1>設定変更</h1>
+<br />
+<%= form_with(url: settings_update_path, local: true) do |f| %>
+
+  言語設定
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="letter_kind" id="flexRadioLanguageJiantizi"
+      <%= "checked" if Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.jiantizi %>
+      value=<%= Constants.letter_kind.jiantizi %> >
+    <label class="form-check-label" for="flexRadioLanguageJiantizi">
+      簡体字
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="letter_kind" id="flexRadioLanguageFantizi"
+      <%= "checked" if Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.fantizi %>
+      value=<%= Constants.letter_kind.fantizi %> >
+    <label class="form-check-label" for="flexRadioLanguageFantizi">
+      繁体字
+    </label>
+  </div>
+  <br />
+
+  出題形式設定
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_format" id="flexRadioFormatChengyu"
+      <%= "checked" if Setting.test_formats[current_user.setting.test_format] == Constants.test_format.chengyu %>
+      value=<%= Constants.test_format.chengyu %> >
+    <label class="form-check-label" for="flexRadioFormatChengyu">
+      意味を見て、成語を答える
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_format" id="flexRadioFormatMean"
+      <%= "checked" if Setting.test_formats[current_user.setting.test_format] == Constants.test_format.mean %>
+      value=<%= Constants.test_format.mean %> >
+    <label class="form-check-label" for="flexRadioFormatMean">
+      成語を見て、意味を答える
+    </label>
+  </div>
+
+  出題設定
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_kind" id="flexRadioKindDefault"
+      <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.default %>
+      value=<%= Constants.test_kind.default %> >
+    <label class="form-check-label" for="flexRadioKindDefault">
+      全ての問題から答える
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_kind" id="flexRadioKindMistake"
+      <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.mistake %>
+      value=<%= Constants.test_kind.mistake %> >
+    <label class="form-check-label" for="flexRadioKindMistake">
+      自分の間違った問題から答える
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">変更する</button>
+
+<% end %>
+
+<%= link_to "Topへ戻る", root_path, class: "btn btn-light btn-lg" %>
+<br />
+<%= link_to 'メールアドレス・パスワード変更', edit_user_registration_path, class: 'btn btn-secondary' %>

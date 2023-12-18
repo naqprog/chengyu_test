@@ -12,7 +12,7 @@ ja:
         user: "ユーザid"
         letter_kind: "字体"
         test_kind: "問題内容"
-        test_format: "問題方式"
+        test_format: "出題形式"
       question:
         chengyu_jianti: "簡体字"
         chengyu_fanti: "繁体字"
@@ -26,7 +26,7 @@ ja:
       response:
         user: "ユーザid"
         question: "問題id"
-        test_format: "問題方式"
+        test_format: "出題形式"
         correct: "正解したか"
       synonym:
         question: "類義語その１"

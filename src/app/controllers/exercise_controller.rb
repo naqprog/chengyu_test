@@ -6,30 +6,13 @@ class ExerciseController < ApplicationController
 
     # 現在の収録問題数を取得
     max_question = Question.count
-
-    # ユーザの設定から出題種類を調べる
-    if(user_signed_in?)
-      kind = Setting.test_kinds[current_user.setting.test_kind]
-    else
-      kind = Constants.test_kind.default
-    end
-
-    # ランダムで出題する１問を選ぶ
-    case kind
-    when Constants.test_kind.default
-      now_question = rand(max_question) + 1
-    when Constants.test_kind.mistake
+    # 設定に従って今回の問題を選定
+    now_question = choice_now_question
+    unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
-      unless(Response.exists?(user_id: current_user.id))
-        flash[:danger] = "今までに一度も回答されたことがありません"
-        return redirect_to root_path
-      end
-      now_question = choice_mistake_question(Constants.test_kind.mistake) + 1
-    else
-      # 例外を吐き出す
-      raise RuntimeError, "ユーザ設定の出題種類設定がおかしい"
+      flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
+      return redirect_to root_path
     end
-
     @question = Question.find(now_question)
 
     # 今回用いる言語設定を言語設定や強制フラグから選択して
@@ -86,8 +69,8 @@ class ExerciseController < ApplicationController
 
     # データベース処理
     Response.create(
-      test_format: user_signed_in? ? current_user.setting.test_format : 0,
-      test_kind: Constants.test_format.chengyu,
+      test_format: Constants.test_format.chengyu,
+      test_kind: user_signed_in? ? current_user.setting.test_kind : Constants.test_kind.default,
       correct: input_answer == true_answer ? true : false,
       user_id: user_signed_in? ? current_user.id : nil,
       question_id: params[:question_id]
@@ -113,9 +96,13 @@ class ExerciseController < ApplicationController
 
     # 現在の収録問題数を取得
     max_question = Question.count
-
-    # ランダムで出題する１問を選ぶ
-    now_question = rand(max_question) + 1
+    # 設定に従って今回の問題を選定
+    now_question = choice_now_question
+    unless(now_question) # エラーが返ってきてしまったら
+      # 1問も過去に回答したことがなかったらエラーで返す
+      flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
+      return redirect_to root_path
+    end
     @question = Question.find(now_question)
 
     # 今回用いる言語設定を言語設定や強制フラグから選択して
@@ -172,8 +159,8 @@ class ExerciseController < ApplicationController
 
     # データベース処理
     Response.create(
-      test_format: user_signed_in? ? current_user.setting.test_format : 0,
-      test_kind: Constants.test_format.mean,
+      test_format: Constants.test_format.mean,
+      test_kind: user_signed_in? ? current_user.setting.test_kind : Constants.test_kind.default,
       correct: @input_answer.id == @question.id ? true : false,
       user_id: user_signed_in? ? current_user.id : nil,
       question_id: @question.id
@@ -215,17 +202,19 @@ class ExerciseController < ApplicationController
   end
 
   # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
-  def choice_mistake_question(test_format)
-    # 自分が、テストの種類(成語を聞くか、意味を聞くか)がtest_kindで間違った記録を抽出
+  def choice_mistake_question
+    # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
     arr = []
-    my_mis = Response.where(user_id: current_user.id).where(test_format: test_format)
+    my_mis = Response.where(user_id: current_user.id)
+                      .where(test_format: Setting.test_formats[current_user.setting.test_format])
+                      .where(correct: false)
     # 間違えた全部の回のIDを一時的に配列へ
     my_mis.each do |mis|
       arr << mis.question_id
     end
     # 配列のIDを重複がないようにする
     arr.uniq!
-    return my_mis[rand(arr.length)].question_id
+    return arr[rand(arr.length)]
   end
 
   # すでにその文字列があるかどうかを判定し、なかったら配列に追加する
@@ -244,6 +233,32 @@ class ExerciseController < ApplicationController
       rr = rand(max) # ランダムがexcと別のものになるまで繰り返す
     end
     return rr
+  end
+
+  # 設定等から問題を抽出した上で、ランダムで出題IDを決定する
+  def choice_now_question
+    # ユーザの設定から出題種類を調べる
+    if(user_signed_in?)
+      kind = Setting.test_kinds[current_user.setting.test_kind]
+    else
+      kind = Constants.test_kind.default
+    end
+
+    # ランダムで出題する１問を選ぶ
+    case kind
+    when Constants.test_kind.default
+      # すべての問題から選ぶ
+      return rand(Question.count) + 1
+    when Constants.test_kind.mistake
+      # 1問も過去に回答したことがなかったらエラーで返す
+      unless(Response.exists?(user_id: current_user.id, test_format: Setting.test_formats[current_user.setting.test_format], correct: false))
+        return nil
+      end
+      return choice_mistake_question
+    else
+      # 例外を吐き出す
+      raise RuntimeError, "ユーザ設定の出題形式設定がおかしい"
+    end
   end
 
 end
