@@ -12,4 +12,7 @@ Rails.application.routes.draw do
   post 'exercise_judgement_mean', to: 'exercise#judgement_mean'
   get 'exercise_result_mean', to: 'exercise#result_mean'
 
+  get 'settings/edit'
+  post 'settings/update'
+
 end
