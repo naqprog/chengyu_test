@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_10_133428) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_20_133804) do
+  create_table "bookmarks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_bookmarks_on_question_id"
+    t.index ["user_id", "question_id"], name: "index_bookmarks_on_user_id_and_question_id", unique: true
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
+
   create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "chengyu_jianti", null: false
     t.string "chengyu_fanti", null: false
@@ -72,6 +82,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_133428) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookmarks", "questions"
+  add_foreign_key "bookmarks", "users"
   add_foreign_key "responses", "questions"
   add_foreign_key "responses", "users"
   add_foreign_key "settings", "users"

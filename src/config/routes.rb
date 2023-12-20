@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'responses/create'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
@@ -15,4 +16,7 @@ Rails.application.routes.draw do
   get 'settings/edit'
   post 'settings/update'
 
+  resources :questions do
+    resource :bookmark, only: %i[create destroy]
+  end
 end
