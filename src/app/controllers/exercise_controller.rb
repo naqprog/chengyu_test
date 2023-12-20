@@ -203,6 +203,9 @@ class ExerciseController < ApplicationController
 
   # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
   def choice_mistake_question
+    binding.break
+
+
     # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
     arr = []
     my_mis = Response.where(user_id: current_user.id)

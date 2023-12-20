@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   }
 
   has_many :synonyms, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
 
   def chengyu_lang_setting(lang_setting)
     if(lang_setting == Constants.letter_kind.jiantizi)

@@ -11,8 +11,11 @@
   <font color="blue">残念、不正解！</font>
 <% end %>
 <br />
+<%= render partial: "favorite_button", locals: { question: @question }%>
+<br />
 <br />
 もう一度やってみる？<br />
 <%= render 'shared/ask_mean_button' %>
 <br />
 <%= link_to "Topへ戻る", root_path, class: "btn btn-light btn-lg" %>
+<br />
