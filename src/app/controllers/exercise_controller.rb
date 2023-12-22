@@ -7,7 +7,7 @@ class ExerciseController < ApplicationController
     # 現在の収録問題数を取得
     max_question = Question.count
     # 設定に従って今回の問題を選定
-    now_question = choice_now_question
+    now_question = choice_now_question(Constants.test_format.chengyu)
     unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
       flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
@@ -97,7 +97,7 @@ class ExerciseController < ApplicationController
     # 現在の収録問題数を取得
     max_question = Question.count
     # 設定に従って今回の問題を選定
-    now_question = choice_now_question
+    now_question = choice_now_question(Constants.test_format.mean)
     unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
       flash[:danger] = "今まで誤答したことがないなどで、指定の出題形式で出題ができません"
@@ -201,22 +201,6 @@ class ExerciseController < ApplicationController
     end
   end
 
-  # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
-  def choice_mistake_question
-    # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
-    arr = []
-    my_mis = Response.where(user_id: current_user.id)
-                      .where(test_format: Setting.test_formats[current_user.setting.test_format])
-                      .where(correct: false)
-    # 間違えた全部の回のIDを一時的に配列へ
-    my_mis.each do |mis|
-      arr << mis.question_id
-    end
-    # 配列のIDを重複がないようにする
-    arr.uniq!
-    return arr[rand(arr.length)]
-  end
-
   # すでにその文字列があるかどうかを判定し、なかったら配列に追加する
   def choices_no_duplication(arr, str)
     if(arr.include?(str))
@@ -236,7 +220,7 @@ class ExerciseController < ApplicationController
   end
 
   # 設定等から問題を抽出した上で、ランダムで出題IDを決定する
-  def choice_now_question
+  def choice_now_question(test_format)
     qst = 0
     # 無限ループ注意
     loop do
@@ -254,10 +238,11 @@ class ExerciseController < ApplicationController
         qst = rand(Question.count) + 1
       when Constants.test_kind.mistake then
         # 1問も過去に回答したことがなかったらエラーとしてnilで返す
-        unless(Response.exists?(user_id: current_user.id, test_format: Setting.test_formats[current_user.setting.test_format], correct: false))
+        binding.break
+        unless(Response.exists?(user_id: current_user.id, test_format: test_format, correct: false))
           return nil
         end
-        qst = choice_mistake_question
+        qst = choice_mistake_question(test_format)
       else
         # 例外を吐き出す
         raise RuntimeError, "ユーザ設定の出題形式設定に代入されている数値がおかしい"
@@ -271,6 +256,22 @@ class ExerciseController < ApplicationController
         return qst # メソッドから脱出
       end
     end
+  end
+
+  # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
+  def choice_mistake_question(test_format)
+    # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
+    arr = []
+    my_mis = Response.where(user_id: current_user.id)
+                      .where(test_format: test_format)
+                      .where(correct: false)
+    # 間違えた全部の回のIDを一時的に配列へ
+    my_mis.each do |mis|
+      arr << mis.question_id
+    end
+    # 配列のIDを重複がないようにする
+    arr.uniq!
+    return arr[rand(arr.length)]
   end
 
 end
