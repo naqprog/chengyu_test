@@ -2,9 +2,9 @@
 <small>
 <% if user_signed_in? %>
   <% case Setting.test_kinds[current_user.setting.test_kind]
-    when Constants.test_kind.default %>
+    when Constants.test_kind.default then %>
       全ての問題から出題する<br />
-    <% when Constants.test_kind.mistake %>
+    <% when Constants.test_kind.mistake then %>
     過去間違えた問題から出題する<br />
   <% end %>
 <% else %>

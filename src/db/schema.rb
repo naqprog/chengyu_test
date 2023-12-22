@@ -14,6 +14,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_20_133804) do
   create_table "bookmarks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "question_id", null: false
+    t.boolean "favorite", default: false, null: false
+    t.boolean "known", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_bookmarks_on_question_id"

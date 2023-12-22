@@ -1,9 +1,11 @@
 <%= turbo_frame_tag "favorite_button" do %>
   <% if user_signed_in? %>
-    <% if current_user.bookmark?(question) %>
-      <%= link_to '★お気に入りを外す', question_bookmark_path(question_id: question.id), { data: { "turbo-method": :delete }, class: "btn btn-info" } %> 
+    <% if current_user.favorite?(question) %>
+      <%= link_to '★お気に入りを外す', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite),
+       { data: { "turbo-method": :delete }, class: "btn btn-info" } %> 
     <% else %>
-      <%= link_to '☆お気に入りをする', question_bookmark_path(question_id: question.id), { data: { "turbo-method": :post }, class: "btn btn-info" } %> 
+      <%= link_to '☆お気に入りをする', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite),
+       { data: { "turbo-method": :post }, class: "btn btn-info" } %> 
     <% end %>
   <% else %>
   ※ログインするとお気に入り問題が保存できます<br />
