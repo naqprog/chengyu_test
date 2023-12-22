@@ -13,7 +13,7 @@
 
 <button type="button" class="btn btn-warning btn-lg" onclick="DeleteAnswerText();">一字削除</button>
 
-<%= form_with(url: exercise_judgement_path, local: true) do |f| %>
+<%= form_with(url: exercise_judgement_chengyu_path, local: true) do |f| %>
   <input type="hidden" name="question_id" value="<%= @question.id %>" />
   <input type="hidden" name="choices_join" value="<%= @choices_join %>" />
   <input type="hidden" name="input_answer" value="<%= @input_answer %>" />

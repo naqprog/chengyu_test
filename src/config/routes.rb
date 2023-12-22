@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   devise_for :users
   root 'static_pages#index'
 
-  get 'exercise_ask', to: 'exercise#ask'
-  post 'exercise_judgement', to: 'exercise#judgement'
-  get 'exercise_result', to: 'exercise#result'
+  get 'exercise_ask_chengyu', to: 'exercise#ask_chengyu'
+  post 'exercise_judgement_chengyu', to: 'exercise#judgement_chengyu'
+  get 'exercise_result_chengyu', to: 'exercise#result_chengyu'
 
   get 'exercise_ask_mean', to: 'exercise#ask_mean'
   post 'exercise_judgement_mean', to: 'exercise#judgement_mean'

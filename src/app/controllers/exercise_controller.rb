@@ -1,6 +1,6 @@
 class ExerciseController < ApplicationController
 
-  def ask
+  def ask_chengyu
     # 変数定義
     @choices = [] # 選択肢用配列
 
@@ -48,7 +48,7 @@ class ExerciseController < ApplicationController
     @choices_join = @choices.join
   end
 
-  def judgement
+  def judgement_chengyu
 
     # formからデータ引き継ぎ
     input_answer = params[:input_answer]
@@ -80,10 +80,10 @@ class ExerciseController < ApplicationController
     flash[:question_id] = question.id
     flash[:input_answer] = input_answer
     flash[:true_answer] = true_answer
-    redirect_to action: :result
+    redirect_to action: :result_chengyu
   end
 
-  def result
+  def result_chengyu
     # judgementからデータ引き継ぎ
     @question = Question.find(flash[:question_id])
     @input_answer = flash[:input_answer]
