@@ -100,7 +100,7 @@ class ExerciseController < ApplicationController
     now_question = choice_now_question
     unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
-      flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
+      flash[:danger] = "今まで誤答したことがないなどで、指定の出題形式で出題ができません"
       return redirect_to root_path
     end
     @question = Question.find(now_question)
@@ -203,9 +203,6 @@ class ExerciseController < ApplicationController
 
   # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
   def choice_mistake_question
-    binding.break
-
-
     # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
     arr = []
     my_mis = Response.where(user_id: current_user.id)
@@ -240,27 +237,39 @@ class ExerciseController < ApplicationController
 
   # 設定等から問題を抽出した上で、ランダムで出題IDを決定する
   def choice_now_question
-    # ユーザの設定から出題種類を調べる
-    if(user_signed_in?)
-      kind = Setting.test_kinds[current_user.setting.test_kind]
-    else
-      kind = Constants.test_kind.default
-    end
-
-    # ランダムで出題する１問を選ぶ
-    case kind
-    when Constants.test_kind.default
-      # すべての問題から選ぶ
-      return rand(Question.count) + 1
-    when Constants.test_kind.mistake
-      # 1問も過去に回答したことがなかったらエラーで返す
-      unless(Response.exists?(user_id: current_user.id, test_format: Setting.test_formats[current_user.setting.test_format], correct: false))
-        return nil
+    qst = 0
+    # 無限ループ注意
+    loop do
+      # ユーザの設定から出題種類を調べる
+      if(user_signed_in?)
+        kind = Setting.test_kinds[current_user.setting.test_kind]
+      else
+        kind = Constants.test_kind.default
       end
-      return choice_mistake_question
-    else
-      # 例外を吐き出す
-      raise RuntimeError, "ユーザ設定の出題形式設定がおかしい"
+
+      # ランダムで出題する１問を選ぶ
+      case kind
+      when Constants.test_kind.default then
+        # すべての問題から選ぶ
+        qst = rand(Question.count) + 1
+      when Constants.test_kind.mistake then
+        # 1問も過去に回答したことがなかったらエラーとしてnilで返す
+        unless(Response.exists?(user_id: current_user.id, test_format: Setting.test_formats[current_user.setting.test_format], correct: false))
+          return nil
+        end
+        qst = choice_mistake_question
+      else
+        # 例外を吐き出す
+        raise RuntimeError, "ユーザ設定の出題形式設定に代入されている数値がおかしい"
+      end
+      # ログインしているなら、「既知リストに入ってない」ことを調べる
+      if user_signed_in?
+        if !current_user.known?(Question.find(qst))
+          return qst # メソッドから脱出
+        end
+      else
+        return qst # メソッドから脱出
+      end
     end
   end
 
