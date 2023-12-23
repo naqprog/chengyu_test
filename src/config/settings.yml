@@ -10,6 +10,7 @@ letter_kind:
 test_format:
   chengyu: 0
   mean: 1
+  all: 2
 test_kind:
   default: 0
   mistake: 1

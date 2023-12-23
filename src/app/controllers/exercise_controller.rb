@@ -120,7 +120,7 @@ class ExerciseController < ApplicationController
         # 今の出題ではない問題から１問ランダムで選ぶ
         tmp_question = Question.find(rand_exclude(max_question, now_question) + 1)
         # 選ばれたidが既に選ばれている選択肢のidとかぶらない
-        if(@choices.any? { |v| v.id != tmp_question })
+        if(!@choices.include?(tmp_question))
           # ランダムで選んで来た問題が、出題される問題と「同義語」でないかチェック
           if(Synonym.same_check(@question.id, tmp_question.id))
             # チェックOKなので選択肢に追加する

@@ -93,6 +93,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # タイムゾーン設定
-  config.time_zone = "Tokyo"
-  config.active_record.default_timezone = :local
+  # config.time_zone = "Tokyo"
+  # config.active_record.default_timezone = :local
 end

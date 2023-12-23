@@ -59,6 +59,6 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   # タイムゾーン設定
-  config.time_zone = "Tokyo"
-  config.active_record.default_timezone = :local
+  # config.time_zone = "Tokyo"
+  # config.active_record.default_timezone = :local
 end
