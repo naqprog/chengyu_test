@@ -71,5 +71,41 @@ class User < ApplicationRecord
       return false
     end
   end
-  
+
+  # 過去X日間の正答率をパーセントで算出する
+  # input_dateが0(日間)なら、過去すべてでの正答率とする
+  def correct_answer_rate(input_date = 0, test_format = Constants.test_format.all)
+    # 自分の回答データを抽出する
+    case test_format
+    # テスト形式未指定なら
+    when Constants.test_format.all
+      # 全区間
+      if input_date == 0
+        my_res = Response.where(user_id: id).count
+        my_mis = Response.where(user_id: id).where(correct: true).count
+      # 日付範囲指定
+      else
+        range_date = Range.new((Time.now - input_date.days), Time.now)
+        my_res = Response.where(user_id: id).where(created_at: range_date).count
+        my_mis = Response.where(user_id: id).where(created_at: range_date).where(correct: true).count
+      end
+    # テスト形式が指定されているなら
+    else
+      # 全区間
+      if input_date == 0
+        my_res = Response.where(user_id: id).where(test_format: test_format).count
+        my_mis = Response.where(user_id: id).where(test_format: test_format).where(correct: true).count
+      # 日付範囲指定
+      else
+        range_date = Range.new((Time.now - input_date.days), Time.now)
+        my_res = Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).count
+        my_mis = Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).where(correct: true).count
+      end
+    end
+    # 0除算回避
+    return 0.00 if my_res == 0
+    # パーセント算出して、小数点第3位を四捨五入
+    return (my_mis.fdiv(my_res)*100).round(2)
+  end
+
 end

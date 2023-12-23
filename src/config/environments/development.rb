@@ -69,6 +69,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # タイムゾーン設定
-  config.time_zone = "Tokyo"
-  config.active_record.default_timezone = :local
+  # config.time_zone = "Tokyo"
+  # config.active_record.default_timezone = :local
 end

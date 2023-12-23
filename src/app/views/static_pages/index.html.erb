@@ -9,3 +9,11 @@
 <br />
 <br />
 <%= render 'shared/test_format_change' %>
+<br />
+
+
+<% if user_signed_in? %>
+  <%= link_to "プロフィールを見る", profile_path, class: "btn btn-primary btn-lg" %>
+<% else %>
+  未ログイン<br />
+<% end %>

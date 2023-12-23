@@ -19,4 +19,7 @@ Rails.application.routes.draw do
   resources :questions do
     resource :bookmark, only: %i[create destroy]
   end
+
+  get 'profile', to: 'profile#index'
+
 end
