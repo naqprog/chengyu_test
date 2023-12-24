@@ -17,20 +17,18 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-
-      <% if user_signed_in? %>
-        <div class="navbar-brand"><%= current_user.email %></div>
-      <% else %>
-        <div class="navbar-brand">未ログイン</div>
-      <% end %>
+        <%= link_to 'ChengYu-Test', root_path, class: 'navbar-brand' %>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav">
+          </ul>
+          <ul class="navbar-nav ms-auto">
             <% if user_signed_in? %>
+              <div class="navbar-brand"><%= current_user.email %></div>
               <li class="nav-item">
                 <%= link_to '設定変更', settings_edit_path, class: 'nav-link' %>
               </li>
@@ -56,6 +54,8 @@
     <%= alert %>
     <%= render "shared/flash_message" %>
 
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

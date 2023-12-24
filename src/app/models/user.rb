@@ -72,40 +72,72 @@ class User < ApplicationRecord
     end
   end
 
-  # 過去X日間の正答率をパーセントで算出する
-  # input_dateが0(日間)なら、過去すべてでの正答率とする
-  def correct_answer_rate(input_date = 0, test_format = Constants.test_format.all)
+  # 過去X日間の問題に答えた回数を返す
+  # input_dateが0(日間)なら、過去すべて
+  def get_answer_num(input_date = 0, test_format = Constants.test_format.all)
     # 自分の回答データを抽出する
     case test_format
     # テスト形式未指定なら
     when Constants.test_format.all
       # 全区間
       if input_date == 0
-        my_res = Response.where(user_id: id).count
-        my_mis = Response.where(user_id: id).where(correct: true).count
+        return Response.where(user_id: id).count
       # 日付範囲指定
       else
         range_date = Range.new((Time.now - input_date.days), Time.now)
-        my_res = Response.where(user_id: id).where(created_at: range_date).count
-        my_mis = Response.where(user_id: id).where(created_at: range_date).where(correct: true).count
+        return Response.where(user_id: id).where(created_at: range_date).count
       end
     # テスト形式が指定されているなら
     else
       # 全区間
       if input_date == 0
-        my_res = Response.where(user_id: id).where(test_format: test_format).count
-        my_mis = Response.where(user_id: id).where(test_format: test_format).where(correct: true).count
+        return Response.where(user_id: id).where(test_format: test_format).count
       # 日付範囲指定
       else
         range_date = Range.new((Time.now - input_date.days), Time.now)
-        my_res = Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).count
-        my_mis = Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).where(correct: true).count
+        return Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).count
+      end
+    end  
+  end
+
+  # 過去X日間の正答回数を返す
+  # input_dateが0(日間)なら、過去すべて
+  def get_correct_num(input_date = 0, test_format = Constants.test_format.all)
+    # 自分の回答データを抽出する
+    case test_format
+    # テスト形式未指定なら
+    when Constants.test_format.all
+      # 全区間
+      if input_date == 0
+        return Response.where(user_id: id).where(correct: true).count
+      # 日付範囲指定
+      else
+        range_date = Range.new((Time.now - input_date.days), Time.now)
+        return Response.where(user_id: id).where(created_at: range_date).where(correct: true).count
+      end
+    # テスト形式が指定されているなら
+    else
+      # 全区間
+      if input_date == 0
+        return Response.where(user_id: id).where(test_format: test_format).where(correct: true).count
+      # 日付範囲指定
+      else
+        range_date = Range.new((Time.now - input_date.days), Time.now)
+        return Response.where(user_id: id).where(test_format: test_format).where(created_at: range_date).where(correct: true).count
       end
     end
+  end
+
+  # 過去X日間の正答率をパーセントで算出し、回答回数と正答回数をまとめて返す
+  # input_dateが0(日間)なら、過去すべて
+  def get_correct_answer_rate_data(input_date = 0, test_format = Constants.test_format.all)
+    # 回答回数と正答回数を取得
+    my_res = get_answer_num(input_date, test_format)
+    my_cor = get_correct_num(input_date, test_format)
     # 0除算回避
     return 0.00 if my_res == 0
     # パーセント算出して、小数点第3位を四捨五入
-    return (my_mis.fdiv(my_res)*100).round(2)
+    return my_res, my_cor, (my_cor.fdiv(my_res)*100).round(2)
   end
 
 end
