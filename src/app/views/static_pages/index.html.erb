@@ -1,4 +1,4 @@
-<h1>Chenyu-Test Top Page!!</h1>
+<h2>成語テストへようこそ！</h2>
 <br />
 成語を聞く問題<br />
 <%= render 'shared/ask_chengyu_button' %>
@@ -13,7 +13,7 @@
 
 
 <% if user_signed_in? %>
-  <%= link_to "プロフィールを見る", profile_path, class: "btn btn-primary btn-lg" %>
+  <%= link_to "プロフィールを見る", profiles_path, class: "btn btn-primary btn-lg" %>
 <% else %>
   未ログイン<br />
 <% end %>

@@ -2,7 +2,7 @@
 <br />
 [問題]
 <div class="notosans"><%= @question.chengyu_lang_setting(@use_letter_kind) %></div>
-<%= form_with(url: exercise_judgement_mean_path, local: true) do |f| %>
+<%= form_with(url: exercises_judgement_mean_path, local: true) do |f| %>
 
   <% @choices.each_with_index do |c,i| %>
     <div class="form-check">

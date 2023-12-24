@@ -1,5 +1,4 @@
 現在の設定<br />
-<small>
 <% if user_signed_in? %>
   <% case Setting.test_kinds[current_user.setting.test_kind]
     when Constants.test_kind.default then %>
@@ -10,4 +9,3 @@
 <% else %>
   ログインすると回答記録が保存され、間違った問題を復習できるようになります。<br />
 <% end %>
-</small>

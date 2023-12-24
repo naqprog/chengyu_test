@@ -10,6 +10,11 @@ class ResponsesController < ApplicationController
     @response.save!
   end
 
+  # 一覧表示
+  def index
+    @responses = Response.where(user_id: current_user.id).page(params[:page]).per(5)
+  end
+
   private
 
   def response_params

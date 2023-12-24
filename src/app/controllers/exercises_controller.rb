@@ -1,4 +1,4 @@
-class ExerciseController < ApplicationController
+class ExercisesController < ApplicationController
 
   def ask_chengyu
     # 変数定義
@@ -238,7 +238,6 @@ class ExerciseController < ApplicationController
         qst = rand(Question.count) + 1
       when Constants.test_kind.mistake then
         # 1問も過去に回答したことがなかったらエラーとしてnilで返す
-        binding.break
         unless(Response.exists?(user_id: current_user.id, test_format: test_format, correct: false))
           return nil
         end

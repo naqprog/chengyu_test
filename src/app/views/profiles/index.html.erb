@@ -1,0 +1,19 @@
+<% res_now, cor_now, rate_now =current_user.get_correct_answer_rate_data %>
+<% res_30, cor_30, rate_30 =current_user.get_correct_answer_rate_data(30) %>
+<% res_chengyu, cor_chengyu, rate_chengyu =current_user.get_correct_answer_rate_data(0, Constants.test_format.chengyu) %>
+<% res_mean, cor_mean, rate_mean =current_user.get_correct_answer_rate_data(0, Constants.test_format.chengyu) %>
+
+<%= current_user.email %>さんの成績<br />
+<br />
+今までの正答率<br />
+<%= rate_now %> % ( <%= cor_now %> / <%= res_now %> ) <br />
+30日間の正答率<br />
+<%= rate_30 %> % ( <%= cor_30 %> / <%= res_30 %> ) <br />
+
+<br />
+今までの「成語を答える問題」の正答率<br />
+<%= rate_chengyu %> % ( <%= cor_chengyu %> / <%= res_chengyu %> ) <br />
+今までの「意味を答える問題」の正答率<br />
+<%= rate_mean %> % ( <%= cor_mean %> / <%= res_mean %> ) <br />
+<br />
+<%= link_to "回答履歴を見る", responses_index_path, class: "btn btn-primary btn-lg" %>

@@ -1,0 +1,25 @@
+あなたの今までの回答記録<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">成語</th>
+      <th scope="col">意味</th>
+      <th scope="col">正誤</th>
+      <th scope="col">日時</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <% @responses.each do |res| %>
+  <% qq = Question.find(res.question_id) %>
+
+  <tr>
+    <td><%= qq.chengyu_jianti %></th>
+    <td><%= qq.mean %></td>
+    <td><%= res.correct ? "◯" : "✕" %></td>
+    <td><%= res.created_at.in_time_zone('Tokyo').strftime("%F %T") %></td>
+  </tr>
+
+<% end %>
+
+<%= paginate @responses %>
