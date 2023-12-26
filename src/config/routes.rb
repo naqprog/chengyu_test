@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'responses/create'
   get 'responses/index', to: 'responses#index'
 
+  get 'questions/:id', to: 'questions#show', as: 'question_show'
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   root 'static_pages#index'

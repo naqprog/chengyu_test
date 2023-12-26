@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_20_133804) do
     t.string "chengyu_fanti", null: false
     t.string "pinyin", null: false
     t.text "mean", null: false
+    t.text "note"
     t.string "other_answer_jianti"
     t.string "other_answer_fanti"
     t.string "other_answer_pinyin"

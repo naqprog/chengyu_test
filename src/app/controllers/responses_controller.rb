@@ -12,7 +12,7 @@ class ResponsesController < ApplicationController
 
   # 一覧表示
   def index
-    @responses = Response.where(user_id: current_user.id).page(params[:page]).per(5)
+    @responses = Response.where(user_id: current_user.id).page(params[:page]).per(10).reverse_order
   end
 
   private

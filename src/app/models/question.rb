@@ -15,4 +15,12 @@ class Question < ApplicationRecord
     end
   end
 
+  def other_answer_lang_setting(lang_setting)
+    if(lang_setting == Constants.letter_kind.jiantizi)
+      return other_answer_jianti
+    else
+      return other_answer_fanti
+    end
+  end
+
 end
