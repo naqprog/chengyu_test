@@ -1,0 +1,48 @@
+<table class="table">
+  <tbody>
+    <tr>
+      <td class="text-end pe-3">問題ID</td>
+      <td><%= @question.id %></td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">成語</td>
+      <td>
+        <span class="notosans">
+          <%= @question.chengyu_lang_setting(@letter_kind) %><br />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">ピンイン</td>
+      <td><%= @question.pinyin %></td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">意味</td>
+      <td><%= @question.mean %></td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">備考</td>
+      <td><%= @question.note %></td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">別解</td>
+      <td>
+        <span class="notosans">
+          <%= @question.other_answer_lang_setting(@letter_kind) %><br />
+        </td>
+    </tr>
+    <tr>
+      <td class="text-end pe-3">類義語</td>
+      <td>
+        <span class="notosans">
+          <% @synonym.each do |sy| %>
+            <% qq = Question.find(sy) %>
+            <%= link_to(qq.chengyu_lang_setting(@letter_kind), question_show_path(qq.id)) %>
+            　
+          <% end %>
+        </span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>

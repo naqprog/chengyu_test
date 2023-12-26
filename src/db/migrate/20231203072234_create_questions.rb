@@ -5,6 +5,7 @@ class CreateQuestions < ActiveRecord::Migration[7.0]
       t.string :chengyu_fanti,       null: false
       t.string :pinyin,              null: false
       t.text :mean,                  null: false
+      t.text :note
       t.string :other_answer_jianti
       t.string :other_answer_fanti
       t.string :other_answer_pinyin

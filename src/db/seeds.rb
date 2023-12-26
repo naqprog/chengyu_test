@@ -40,14 +40,15 @@ CSV.foreach('db/seeds_data/question.csv', headers: true) do |question|
     :chengyu_jianti => question[1], 
     :chengyu_fanti => question[2], 
     :pinyin => question[3], 
-    :mean => question[4], 
-    :other_answer_jianti => question[5], 
-    :other_answer_fanti => question[6], 
-    :other_answer_pinyin => question[7], 
-    :source => question[8], 
-    :level => question[9], 
-    :created_at => question[10], 
-    :updated_at => question[11]
+    :mean => question[4],
+    :note => question[5],
+    :other_answer_jianti => question[6], 
+    :other_answer_fanti => question[7], 
+    :other_answer_pinyin => question[8], 
+    :source => question[9], 
+    :level => question[10], 
+    :created_at => question[11], 
+    :updated_at => question[12]
   )
 end
 

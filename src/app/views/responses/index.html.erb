@@ -2,24 +2,30 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">正誤</th>
       <th scope="col">成語</th>
       <th scope="col">意味</th>
-      <th scope="col">正誤</th>
       <th scope="col">日時</th>
     </tr>
   </thead>
   <tbody>
 
-  <% @responses.each do |res| %>
-  <% qq = Question.find(res.question_id) %>
+    <% @responses.each do |res| %>
+      <% qq = Question.find(res.question_id) %>
 
-  <tr>
-    <td><%= qq.chengyu_jianti %></th>
-    <td><%= qq.mean %></td>
-    <td><%= res.correct ? "◯" : "✕" %></td>
-    <td><%= res.created_at.in_time_zone('Tokyo').strftime("%F %T") %></td>
-  </tr>
+      <tr class="table-<%= res.correct ? "primary" : "warning" %>" >
+        <td><%= res.correct ? "◯" : "✕" %></td>
+        <td>
+          <span class="notosans">
+            <%= link_to(qq.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(qq.id)) %>
+          </span>
+        </td>
+        <td class="col-6" ><%= qq.mean %></td>
+        <td><%= res.created_at.in_time_zone('Tokyo').strftime("%m/%d %H:%M") %></td>
+      </tr>
+    <% end %>
 
-<% end %>
+  </tbody>
+</table>
+<%= paginate @responses, theme: 'bootstrap-5' %><br />
 
-<%= paginate @responses %>
