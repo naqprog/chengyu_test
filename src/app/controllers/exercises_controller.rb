@@ -177,7 +177,7 @@ class ExercisesController < ApplicationController
     # judgement_meanからデータ引き継ぎ
     @question = Question.find(flash[:question_id])
     @input_answer = Question.find(flash[:input_answer_id])
-    @use_letter_kind = flash[:use_letter_kind]
+    @use_letter_kind = flash[:use_letter_kind].to_i
   end
 
   private  

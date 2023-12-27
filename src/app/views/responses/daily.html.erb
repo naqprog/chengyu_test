@@ -1,0 +1,26 @@
+<h4>あなたの今までの回答記録(デイリー)</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">日付</th>
+      <th scope="col">正答率(意味→成語)</th>
+      <th scope="col">正答率(成語→意味)</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @dates.each do |date| %>
+      <% res_c, cor_c, rate_c = current_user.get_daily_correct_answer_rate_data(date, Constants.test_format.chengyu) %>
+      <% res_m, cor_m, rate_m = current_user.get_daily_correct_answer_rate_data(date, Constants.test_format.mean) %>
+
+      <tr>
+        <td><%= date %></td>
+        <td><%= render 'shared/display_correct_rate', rate: rate_c, cor: cor_c, res: res_c %></td>
+        <td><%= render 'shared/display_correct_rate', rate: rate_m, cor: cor_m, res: res_m %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<%= paginate @dates, theme: 'bootstrap-5' %><br />

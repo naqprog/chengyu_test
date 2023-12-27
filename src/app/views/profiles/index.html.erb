@@ -3,17 +3,17 @@
 <% res_chengyu, cor_chengyu, rate_chengyu = current_user.get_correct_answer_rate_data(0, Constants.test_format.chengyu) %>
 <% res_mean, cor_mean, rate_mean = current_user.get_correct_answer_rate_data(0, Constants.test_format.mean) %>
 
-<%= current_user.email %>さんの成績<br />
-<br />
+<h4><%= current_user.email %>さんの成績</h4><br />
 今までの正答率<br />
 
-<%= render 'display_correct_rate', rate: rate_now, cor: cor_now, res: res_now %>
+<%= render 'shared/display_correct_rate', rate: rate_now, cor: cor_now, res: res_now %>
 30日間の正答率<br />
-<%= render 'display_correct_rate', rate: rate_30, cor: cor_30, res: res_30 %>
+<%= render 'shared/display_correct_rate', rate: rate_30, cor: cor_30, res: res_30 %>
 <br />
 今までの「成語を答える問題」の正答率<br />
-<%= render 'display_correct_rate', rate: rate_chengyu, cor: cor_chengyu, res: res_chengyu %>
+<%= render 'shared/display_correct_rate', rate: rate_chengyu, cor: cor_chengyu, res: res_chengyu %>
 今までの「意味を答える問題」の正答率<br />
-<%= render 'display_correct_rate', rate: rate_mean, cor: cor_mean, res: res_mean %>
+<%= render 'shared/display_correct_rate', rate: rate_mean, cor: cor_mean, res: res_mean %>
 <br />
-<%= link_to "回答履歴を見る", responses_index_path, class: "btn btn-primary btn-lg" %>
+<%= link_to "回答履歴一覧を見る", responses_index_path, class: "btn btn-primary btn-lg" %>
+<%= link_to "デイリーの回答履歴を見る", responses_daily_path, class: "btn btn-primary btn-lg" %>

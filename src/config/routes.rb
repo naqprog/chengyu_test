@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'responses/create'
   get 'responses/index', to: 'responses#index'
+  get 'responses/daily', to: 'responses#daily'
 
   get 'questions/:id', to: 'questions#show', as: 'question_show'
 

@@ -15,6 +15,12 @@ class ResponsesController < ApplicationController
     @responses = Response.where(user_id: current_user.id).page(params[:page]).per(10).reverse_order
   end
 
+  # デイリー表示
+  def daily
+    res = Response.where(user_id: current_user.id).map{|dates| dates.created_at.to_date}
+    @dates = Kaminari.paginate_array(res.uniq.reverse).page(params[:page]).per(5)
+  end
+
   private
 
   def response_params
