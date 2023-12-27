@@ -37,17 +37,17 @@ Setting.create!(
 CSV.foreach('db/seeds_data/question.csv', headers: true) do |question|
   Question.create(
    # idは不要だから[0]は無視
-    :chengyu_jianti => question[1], 
-    :chengyu_fanti => question[2], 
-    :pinyin => question[3], 
+    :chengyu_jianti => question[1],
+    :chengyu_fanti => question[2],
+    :pinyin => question[3],
     :mean => question[4],
     :note => question[5],
-    :other_answer_jianti => question[6], 
-    :other_answer_fanti => question[7], 
-    :other_answer_pinyin => question[8], 
-    :source => question[9], 
-    :level => question[10], 
-    :created_at => question[11], 
+    :other_answer_jianti => question[6],
+    :other_answer_fanti => question[7],
+    :other_answer_pinyin => question[8],
+    :source => question[9],
+    :level => question[10],
+    :created_at => question[11],
     :updated_at => question[12]
   )
 end
@@ -55,9 +55,22 @@ end
 CSV.foreach('db/seeds_data/synonym.csv', headers: true) do |synonym|
   Synonym.create(
     # idは不要だから[0]は無視
-    :question_id => synonym[1], 
-    :question_another_id => synonym[2], 
-    :created_at => synonym[3], 
+    :question_id => synonym[1],
+    :question_another_id => synonym[2],
+    :created_at => synonym[3],
     :updated_at => synonym[4]
-  )  
+  )
+end
+
+CSV.foreach('db/seeds_data/response.csv', headers: true) do |response|
+  Response.create(
+    # idは不要だから[0]は無視
+    :test_format => response[1],
+    :test_kind => response[2],
+    :correct => response[3],
+    :created_at => response[4],
+    :updated_at => response[5],
+    :user_id => response[6],
+    :question_id => response[7]
+  )
 end
