@@ -15,7 +15,7 @@
       <% res_m, cor_m, rate_m = current_user.get_daily_correct_answer_rate_data(date, Constants.test_format.mean) %>
 
       <tr>
-        <td><%= date %></td>
+        <td><%= link_to date, responses_index_path(date: date) %></td>
         <td><%= render 'shared/display_correct_rate', rate: rate_c, cor: cor_c, res: res_c %></td>
         <td><%= render 'shared/display_correct_rate', rate: rate_m, cor: cor_m, res: res_m %></td>
       </tr>
@@ -24,3 +24,4 @@
   </tbody>
 </table>
 <%= paginate @dates, theme: 'bootstrap-5' %><br />
+<%= render 'shared/navigate_button_except_question' %>
