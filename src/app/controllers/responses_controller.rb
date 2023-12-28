@@ -12,7 +12,11 @@ class ResponsesController < ApplicationController
 
   # 一覧表示
   def index
-    @responses = Response.where(user_id: current_user.id).page(params[:page]).per(10).reverse_order
+    if params[:date]
+      @responses = Response.where(user_id: current_user.id).where(created_at: params[:date].to_date.all_day).page(params[:page]).per(10).reverse_order
+    else
+      @responses = Response.where(user_id: current_user.id).page(params[:page]).per(10).reverse_order
+    end
   end
 
   # デイリー表示

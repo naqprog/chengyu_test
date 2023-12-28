@@ -5,6 +5,7 @@
       <th scope="col">正誤</th>
       <th scope="col">成語</th>
       <th scope="col">意味</th>
+      <th scope="col">出題</th>
       <th scope="col">日時</th>
     </tr>
   </thead>
@@ -21,6 +22,14 @@
           </span>
         </td>
         <td class="col-6" ><%= qq.mean %></td>
+
+        <% case Setting.test_formats[res.test_format]
+          when Constants.test_format.chengyu then %>
+            <td>意→成</td>
+          <% when Constants.test_format.mean then %>
+            <td>成→意</td>
+        <% end %>
+
         <td><%= res.created_at.in_time_zone('Tokyo').strftime("%m/%d %H:%M") %></td>
       </tr>
     <% end %>
@@ -28,4 +37,4 @@
   </tbody>
 </table>
 <%= paginate @responses, theme: 'bootstrap-5' %><br />
-
+<%= render 'shared/navigate_button_except_question' %>
