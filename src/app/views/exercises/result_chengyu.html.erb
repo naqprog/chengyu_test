@@ -2,7 +2,6 @@
 <br />
 [入力された答え]<div class="notosans"><%= @input_answer %></div><br />
 [正しい答え]<div class="notosans"><%= @true_answer %></div><br />
-<br />
 [正答判定]<br />
 <% if @input_answer == @true_answer %>
   <font color="red">正解！</font>
@@ -11,7 +10,7 @@
 <% end %>
 <br />
 <br />
-<%= render partial: "favorite_button", locals: { question: @question }%>
+<%= render partial: "shared/favorite_button", locals: { question: @question }%>
 <br />
 <br />
 もう一度やってみる？<br />

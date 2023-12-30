@@ -72,6 +72,11 @@ class User < ApplicationRecord
     end
   end
 
+  # 自分が既知フラグを立てている問題数を返す
+  def known_num
+    return Bookmark.where(user_id: id).where(known: true).count
+  end
+
   # 過去X日間の問題に答えた回数を返す
   # input_daysが0(日間)なら、過去すべて
   def get_answer_num(input_days = 0, test_format = Constants.test_format.all)

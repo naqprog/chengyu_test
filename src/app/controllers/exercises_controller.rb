@@ -6,6 +6,14 @@ class ExercisesController < ApplicationController
 
     # 現在の収録問題数を取得
     max_question = Question.count
+
+    # すべての問題が「既知リスト」に入っていたら
+    if max_question == current_user.known_num
+      # エラーで返す
+      flash[:danger] = "すべての問題が既知リストに入っています"
+      return redirect_to root_path
+    end
+
     # 設定に従って今回の問題を選定
     now_question = choice_now_question(Constants.test_format.chengyu)
     unless(now_question) # エラーが返ってきてしまったら
@@ -13,6 +21,7 @@ class ExercisesController < ApplicationController
       flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
       return redirect_to root_path
     end
+
     @question = Question.find(now_question)
 
     # 今回用いる言語設定を言語設定や強制フラグから選択して
@@ -53,7 +62,7 @@ class ExercisesController < ApplicationController
     # formからデータ引き継ぎ
     input_answer = params[:input_answer]
     question = Question.find(params[:question_id])
-    use_letter_kind = params[:use_letter_kind]
+    use_letter_kind = params[:use_letter_kind].to_i
     
     # ログイン状況、言語設定を確認して「答え」を代入
     true_answer = question.chengyu_lang_setting(use_letter_kind)
@@ -81,6 +90,11 @@ class ExercisesController < ApplicationController
     flash[:input_answer] = input_answer
     flash[:true_answer] = true_answer
     redirect_to action: :result_chengyu
+
+
+    binding.break
+
+
   end
 
   def result_chengyu
