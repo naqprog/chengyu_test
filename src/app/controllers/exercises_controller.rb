@@ -90,11 +90,6 @@ class ExercisesController < ApplicationController
     flash[:input_answer] = input_answer
     flash[:true_answer] = true_answer
     redirect_to action: :result_chengyu
-
-
-    binding.break
-
-
   end
 
   def result_chengyu

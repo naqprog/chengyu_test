@@ -1,0 +1,64 @@
+<style>
+.no_underline_link {
+  text-decoration: none;
+}
+</style>
+
+<% if @flg == Constants.bookmark_flg.favorite %>
+  <h4>お気に入り一覧</h4>
+<% elsif @flg == Constants.bookmark_flg.known %>
+  <h4>既知リスト</h4>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">成語</th>
+      <th scope="col">ピンイン</th>
+      <th scope="col">意味</th>
+
+      <% if user_signed_in? %>
+        <th scope="col">fav</th>
+        <th scope="col">既知</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @question.each do |question| %>
+
+      <tr>
+        <td><%= question.id %></td>
+        <td>
+          <span class="notosans">
+            <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(question.id)) %>
+          </span>
+        </td>
+        <td><%= question.pinyin %></td>
+        <td class="col-6" ><%= question.mean %></td>
+
+        <% if user_signed_in? %>
+          <td>
+            <% if current_user.favorite?(question) %>
+              <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+            <% else %>
+              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
+            <% end%>
+          </td>
+          <td>
+            <% if current_user.known?(question) %>
+              <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+            <% else %>
+              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
+            <% end%>
+          </td>
+        <% end %>
+
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<%= paginate @question, theme: 'bootstrap-5', pagination_class: "justify-content-center" %><br />
+<%= render 'shared/navigate_button_except_question' %>

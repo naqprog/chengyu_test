@@ -1,4 +1,10 @@
 class QuestionsController < ApplicationController
+
+  # 一覧表示
+  def index
+    @question = Question.page(params[:page]).per(10)
+  end
+
   def show
     @question = Question.find(params[:id])
 

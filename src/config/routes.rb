@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'responses/index', to: 'responses#index'
   get 'responses/daily', to: 'responses#daily'
 
+  get 'questions', to: 'questions#index', as: 'questions'
   get 'questions/:id', to: 'questions#show', as: 'question_show'
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
   get 'settings/edit'
   post 'settings/update'
 
+  get 'bookmarks', to: 'bookmarks#index', as: 'bookmarks'
   resources :questions do
     resource :bookmark, only: %i[create destroy]
   end

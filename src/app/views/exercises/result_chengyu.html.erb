@@ -2,6 +2,9 @@
 <br />
 [入力された答え]<div class="notosans"><%= @input_answer %></div><br />
 [正しい答え]<div class="notosans"><%= @true_answer %></div><br />
+
+[ピンイン] <%= @question.pinyin %><br />
+
 [正答判定]<br />
 <% if @input_answer == @true_answer %>
   <font color="red">正解！</font>
