@@ -1,11 +1,16 @@
-<h4>あなたの今までの回答記録</h4>
+<% if @date_flg %>
+  <h4>あなたの<%= @responses[0].created_at.in_time_zone('Tokyo').strftime("%m/%d") %>の回答記録</h4>
+<% else %>
+  <h4>あなたの今までの回答記録</h4>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>
       <th scope="col">正誤</th>
       <th scope="col">成語</th>
       <th scope="col">意味</th>
-      <th scope="col">出題</th>
+      <th scope="col">fav</th>
       <th scope="col">日時</th>
     </tr>
   </thead>
