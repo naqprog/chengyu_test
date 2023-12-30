@@ -13,7 +13,9 @@
 
 
 <% if user_signed_in? %>
-  <%= link_to "プロフィールを見る", profiles_path, class: "btn btn-primary btn-lg" %>
+  <%= link_to "プロフィールを見る", profiles_path, class: "btn btn-primary btn-lg" %><br />
 <% else %>
   未ログイン<br />
 <% end %>
+<br />
+<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary btn-lg" %>

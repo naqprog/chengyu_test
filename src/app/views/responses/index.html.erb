@@ -1,3 +1,10 @@
+
+<style>
+.no_underline_link {
+  text-decoration: none;
+}
+</style>
+
 <% if @date_flg %>
   <h4>あなたの<%= @responses[0].created_at.in_time_zone('Tokyo').strftime("%m/%d") %>の回答記録</h4>
 <% else %>
@@ -9,8 +16,9 @@
     <tr>
       <th scope="col">正誤</th>
       <th scope="col">成語</th>
-      <th scope="col">意味</th>
+      <th scope="col">形式</th>
       <th scope="col">fav</th>
+      <th scope="col">既知</th>
       <th scope="col">日時</th>
     </tr>
   </thead>
@@ -26,7 +34,6 @@
             <%= link_to(qq.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(qq.id)) %>
           </span>
         </td>
-        <td class="col-6" ><%= qq.mean %></td>
 
         <% case Setting.test_formats[res.test_format]
           when Constants.test_format.chengyu then %>
@@ -35,11 +42,26 @@
             <td>成→意</td>
         <% end %>
 
+        <td>
+          <% if current_user.favorite?(qq) %>
+            <%= link_to "★", question_bookmark_path(question_id: qq.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+          <% else %>
+            <%= link_to "☆", question_bookmark_path(question_id: qq.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
+          <% end%>
+        </td>
+        <td>
+          <% if current_user.known?(qq) %>
+            <%= link_to "★", question_bookmark_path(question_id: qq.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+          <% else %>
+            <%= link_to "☆", question_bookmark_path(question_id: qq.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
+          <% end%>
+        </td>
+
         <td><%= res.created_at.in_time_zone('Tokyo').strftime("%m/%d %H:%M") %></td>
       </tr>
     <% end %>
 
   </tbody>
 </table>
-<%= paginate @responses, theme: 'bootstrap-5' %><br />
+<%= paginate @responses, theme: 'bootstrap-5', pagination_class: "justify-content-center" %><br />
 <%= render 'shared/navigate_button_except_question' %>

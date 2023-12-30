@@ -1,6 +1,9 @@
 [問題ID]<%= @question.id %><br />
 <br />
 [問題]<div class="notosans"><%= @question.chengyu_lang_setting(@use_letter_kind) %></div>
+
+[ピンイン] <%= @question.pinyin %><br />
+
 [入力された答え]<%= @input_answer.mean %><br />
 [正しい答え]<%= @question.mean %><br />
 <br />
