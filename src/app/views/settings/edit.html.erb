@@ -45,7 +45,7 @@
       <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.default %>
       value=<%= Constants.test_kind.default %> >
     <label class="form-check-label" for="flexRadioKindDefault">
-      全ての問題から答える
+      全ての問題から出題する
     </label>
   </div>
   <div class="form-check">
@@ -53,9 +53,18 @@
       <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.mistake %>
       value=<%= Constants.test_kind.mistake %> >
     <label class="form-check-label" for="flexRadioKindMistake">
-      自分の間違った問題から答える
+      自分の間違った問題から出題する
     </label>
   </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_kind" id="flexRadioKindFavorite"
+      <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.favorite %>
+      value=<%= Constants.test_kind.favorite %> >
+    <label class="form-check-label" for="flexRadioKindFavorite">
+      お気に入り問題から出題する
+    </label>
+  </div>
+
   <button type="submit" class="btn btn-primary">変更する</button>
 
 <% end %>
