@@ -8,6 +8,7 @@ ja:
         password: "パスワード"
         password_confirmation: "確認用パスワード"
         remember_me: "ログインを記憶"
+        role: "権限"
       setting:
         user: "ユーザid"
         letter_kind: "字体"
@@ -28,16 +29,23 @@ ja:
         user: "ユーザid"
         question: "問題id"
         test_format: "出題形式"
+        test_kind: "出題設定"
         correct: "正解したか"
       synonym:
         question: "類義語その１"
         question_another_id: "類義語その２"
+      bookmark:
+        user: "ユーザid"
+        question: "問題id"
+        favorite: "お気に入りフラグ"
+        known: "既知リストフラグ"
     models:
       user: "ユーザ"
       setting: "ユーザ設定"
       question: "問題"
       response: "回答"
       synonym: "類義語"
+      bookmark: "ブックマーク"
   # enum_help
   enums:
     user:
@@ -48,6 +56,17 @@ ja:
       letter_kind:
         jiantizi: '簡体字'
         fantizi: '繁体字'
+      test_format:
+        chengyu: '意味→成語'
+        mean: '成語→意味'
+        all: 'その他'
+      test_kind:
+        default: 'デフォルト'
+        mistake: '誤答から'
+        favorite: 'favから'
+      bookmark_flg:
+        favorite: 'お気に入り'
+        known: '既知'
     question:
       source:
         default: 'その他'

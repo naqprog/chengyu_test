@@ -14,6 +14,7 @@ test_format:
 test_kind:
   default: 0
   mistake: 1
+  favorite: 2
 bookmark_flg:
   favorite: 0
   known: 1

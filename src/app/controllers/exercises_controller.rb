@@ -16,9 +16,10 @@ class ExercisesController < ApplicationController
 
     # 設定に従って今回の問題を選定
     now_question = choice_now_question(Constants.test_format.chengyu)
+
     unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
-      flash[:danger] = "今までに指定の出題形式で一度も誤答されたことがありません"
+      flash[:danger] = "エラー(誤答データやお気に入りデータが見つからないなど)により出題ができません"
       return redirect_to root_path
     end
 
@@ -109,7 +110,7 @@ class ExercisesController < ApplicationController
     now_question = choice_now_question(Constants.test_format.mean)
     unless(now_question) # エラーが返ってきてしまったら
       # 1問も過去に回答したことがなかったらエラーで返す
-      flash[:danger] = "今まで誤答したことがないなどで、指定の出題形式で出題ができません"
+      flash[:danger] = "エラー(誤答データやお気に入りデータが見つからないなど)により出題ができません"
       return redirect_to root_path
     end
     @question = Question.find(now_question)
@@ -230,16 +231,22 @@ class ExercisesController < ApplicationController
 
   # 設定等から問題を抽出した上で、ランダムで出題IDを決定する
   def choice_now_question(test_format)
+    # ユーザの設定から出題種類を調べる
+    if(user_signed_in?)
+      kind = Setting.test_kinds[current_user.setting.test_kind]
+    else
+      kind = Constants.test_kind.default
+    end
+
+    # お気に入りから選ぶなら、データベースから選出した方が早いから、別に設ける
+    if kind == Constants.test_kind.favorite
+      # 専用メソッドからQuestion IDを得る
+      return choice_favorite_question
+    end
+
     qst = 0
     # 無限ループ注意
     loop do
-      # ユーザの設定から出題種類を調べる
-      if(user_signed_in?)
-        kind = Setting.test_kinds[current_user.setting.test_kind]
-      else
-        kind = Constants.test_kind.default
-      end
-
       # ランダムで出題する１問を選ぶ
       case kind
       when Constants.test_kind.default then
@@ -269,16 +276,34 @@ class ExercisesController < ApplicationController
   # 過去に間違えた問題のデータを参照してそこからランダムで出題してidを返す
   def choice_mistake_question(test_format)
     # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致していて、間違った記録を抽出
-    arr = []
     my_mis = Response.where(user_id: current_user.id)
                       .where(test_format: test_format)
                       .where(correct: false)
+    
+    arr = []
     # 間違えた全部の回のIDを一時的に配列へ
     my_mis.each do |mis|
       arr << mis.question_id
     end
     # 配列のIDを重複がないようにする
     arr.uniq!
+    return arr[rand(arr.length)]
+  end
+
+  # お気に入り問題のデータを参照してそこからランダムで出題してidを返す
+  # このメソッドに関しては既知リストチェックも行う
+  def choice_favorite_question
+    # ブックマークデータから状況に即したデータ群を抜く
+    my_fav = Bookmark.where(user_id: current_user.id)
+                      .where(favorite: true)
+                      .where(known: false)
+    
+    arr = []
+    # 間違えた全部の回のIDを一時的に配列へ
+    my_fav.each do |fav|
+      arr << fav.question_id
+    end
+    # データの重複チェックは不要、ブックマークは重複しない(はず)
     return arr[rand(arr.length)]
   end
 
