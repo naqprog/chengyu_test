@@ -28,7 +28,11 @@
         <td><%= question.id %></td>
         <td>
           <span class="notosans">
+          <% if user_signed_in? %>
             <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(question.id)) %>
+          <% else %>
+            <%= link_to(question.chengyu_lang_setting(Constants.letter_kind.jiantizi), question_show_path(question.id)) %>
+          <% end %>
           </span>
         </td>
         <td><%= question.pinyin %></td>
