@@ -8,14 +8,14 @@
 <%= render 'shared/ask_mean_button' %>
 <br />
 <br />
+<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary btn-lg" %>
+<br />
+<br />
 <%= render 'shared/test_format_change' %>
 <br />
-
-
+プロファイル<br />
 <% if user_signed_in? %>
-  <%= link_to "プロフィールを見る", profiles_path, class: "btn btn-primary btn-lg" %><br />
+  <%= link_to "設定を見る", profiles_path, class: "btn btn-primary btn-lg" %><br />
 <% else %>
-  未ログイン<br />
+→アカウントを作りログインすると設定が保存できるようになります。<br />
 <% end %>
-<br />
-<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary btn-lg" %>

@@ -7,11 +7,13 @@ class ExercisesController < ApplicationController
     # 現在の収録問題数を取得
     max_question = Question.count
 
-    # すべての問題が「既知リスト」に入っていたら
-    if max_question == current_user.known_num
-      # エラーで返す
-      flash[:danger] = "すべての問題が既知リストに入っています"
-      return redirect_to root_path
+    if user_signed_in?
+      # すべての問題が「既知リスト」に入っていたら
+      if max_question == current_user.known_num
+        # エラーで返す
+        flash[:danger] = "すべての問題が既知リストに入っています"
+        return redirect_to root_path
+      end
     end
 
     # 設定に従って今回の問題を選定
