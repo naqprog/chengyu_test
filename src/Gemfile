@@ -58,6 +58,7 @@ gem 'config'
 
 # 認証
 gem "devise"
+gem 'devise-bootstrap-views'
 # 環境変数設定
 gem 'dotenv-rails'
 # 管理
