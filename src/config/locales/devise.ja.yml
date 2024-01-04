@@ -82,7 +82,7 @@ ja:
         confirm_new_password: 確認用新しいパスワード
         new_password: 新しいパスワード
       new:
-        forgot_your_password: パスワードを忘れましたか？
+        forgot_your_password: パスワードを忘れた場合
         send_me_reset_password_instructions: パスワードの再設定方法を送信する
       no_token: このページにはアクセスできません。パスワード再設定メールのリンクからアクセスされた場合には、URL をご確認ください。
       send_instructions: パスワードの再設定について数分以内にメールでご連絡いたします。
@@ -96,13 +96,17 @@ ja:
         cancel_my_account: アカウント削除
         currently_waiting_confirmation_for_email: "%{email} の確認待ち"
         new_password: 新しいパスワード
-        leave_blank_if_you_don_t_want_to_change_it: 空欄のままなら変更しません
+        same_email_if_you_don_t_want_to_change_it: メールアドレスを変更しないなら、そのままにしてください
+        leave_blank_if_you_don_t_want_to_change_it: パスワードを変更したいときだけ、入力してください
+        leave_blank_if_you_don_t_want_to_change_it_confirmation: パスワードを変更したいときだけ、同じものを入力してください
         title: "%{resource}編集"
         unhappy: 気に入りません
         update: 更新
-        we_need_your_current_password_to_confirm_your_changes: 変更を反映するには現在のパスワードを入力してください
+        we_need_your_current_password_to_confirm_your_changes: 変更を反映するには「現在のパスワード」を入力して、更新ボタンを押してください
+        back: 設定変更ページに戻る
       new:
         sign_up: アカウント登録
+        password_reinput: パスワードを再度入力してください 
       signed_up: アカウント登録が完了しました。
       signed_up_but_inactive: ログインするためには、アカウントを有効化してください。
       signed_up_but_locked: アカウントがロックされているためログインできません。
@@ -121,11 +125,11 @@ ja:
         back: 戻る
         didn_t_receive_confirmation_instructions: アカウント確認のメールを受け取っていませんか？
         didn_t_receive_unlock_instructions: アカウントのロック解除方法のメールを受け取っていませんか？
-        forgot_your_password: パスワードを忘れましたか？
-        sign_in: ログイン
+        forgot_your_password: パスワードを忘れた場合
+        sign_in: ログインする
         sign_in_with_provider: "%{provider}でログイン"
         sign_up: アカウント登録
-      minimum_password_length: "（%{count}字以上）"
+      minimum_password_length: "（%{count}文字以上）"
     unlocks:
       new:
         resend_unlock_instructions: アカウントのロック解除方法を再送する

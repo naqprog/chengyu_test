@@ -1,5 +1,4 @@
 <h1>設定変更</h1>
-<br />
 <%= form_with(url: settings_update_path, local: true) do |f| %>
 
   言語設定
@@ -38,6 +37,7 @@
       成語を見て、意味を答える
     </label>
   </div>
+  <br />
 
   出題設定
   <div class="form-check">
@@ -65,10 +65,11 @@
     </label>
   </div>
 
+  <br />
   <button type="submit" class="btn btn-primary">変更する</button>
 
 <% end %>
 
-<%= link_to "Topへ戻る", root_path, class: "btn btn-light btn-lg" %>
 <br />
-<%= link_to 'メールアドレス・パスワード変更', edit_user_registration_path, class: 'btn btn-secondary' %>
+<%= link_to 'メールアドレス・パスワード変更', edit_user_registration_path, class: 'btn btn-secondary' %><br />
+<%= link_to "Topへ戻る", root_path, class: "btn btn-light btn-lg" %>
