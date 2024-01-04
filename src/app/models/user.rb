@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_one :setting, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarks_questions, through: :bookmarks, source: :question
+  has_many :response, dependent: :nullify
 
   # フラグを調べてtrueにする、もしオブジェクトがなければテーブルにレコードを追加する
   def bookmark(question, flg)
