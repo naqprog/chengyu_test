@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   get 'questions/:id', to: 'questions#show', as: 'question_show'
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users
+
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+
   root 'static_pages#index'
 
   get 'exercises_ask_chengyu', to: 'exercises#ask_chengyu'

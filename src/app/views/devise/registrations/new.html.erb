@@ -16,6 +16,20 @@
       <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
     <% end %>
   </div>
+  <br/>
+
+  言語設定
+  <%= f.fields_for :setting do |ff| %>
+    <div class="form-check">
+      <%= ff.radio_button :letter_kind, Constants.letter_kind.jiantizi, class: "form-check-input", checked: true %>
+      <%= ff.label :letter_kind, '簡体字', value: Constants.letter_kind.jiantizi, class: "form-check-label" %>
+    </div>
+    <div class="form-check">
+      <%= ff.radio_button :letter_kind, Constants.letter_kind.fantizi, class: "form-check-input" %>
+      <%= ff.label :letter_kind, '繁体字', value: Constants.letter_kind.fantizi, class: "form-check-label" %>
+    </div>
+  <% end %>
+  <br />
 
   <div class="form-group">
   <%= t('devise.registrations.new.password_reinput') %>
