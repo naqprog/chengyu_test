@@ -7,6 +7,8 @@ class User < ApplicationRecord
   enum role: { general: Constants.role.general, admin: Constants.role.admin }
 
   has_one :setting, dependent: :destroy
+  accepts_nested_attributes_for :setting
+
   has_many :bookmarks, dependent: :destroy
   has_many :bookmarks_questions, through: :bookmarks, source: :question
   has_many :response, dependent: :nullify
