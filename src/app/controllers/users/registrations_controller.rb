@@ -11,9 +11,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    # welcomeメールの送信
+    UserMailer.welcome_email(params[:user]).deliver
+  end
 
   # GET /resource/edit
   # def edit
