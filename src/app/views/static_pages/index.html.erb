@@ -1,4 +1,14 @@
-<h2>成語テストへようこそ！</h2>
+<h2>
+<% if Rails.env.production? %>
+[現在開発中！]
+<% end %>
+成語テストへようこそ！</h2>
+<% if Rails.env.production? %>
+<p class="text-danger">
+本サイトは未完成です。開発中のため、アカウントは作成できません。<br />
+テストを受ける場合はアカウントを作成せずに遊んでみてください。
+<% end %>
+</p>
 <br />
 成語を聞く問題<br />
 <%= render 'shared/ask_chengyu_button' %>
