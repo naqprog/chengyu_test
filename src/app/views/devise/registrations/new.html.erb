@@ -32,7 +32,7 @@
   <br />
 
   <div class="form-group">
-  <%= t('devise.registrations.new.password_reinput') %>
+    <%= f.label :password_confirmation, t('devise.registrations.new.password_reinput') %>
     <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
   </div>
   <br />
