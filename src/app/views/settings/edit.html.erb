@@ -57,6 +57,14 @@
     </label>
   </div>
   <div class="form-check">
+    <input class="form-check-input" type="radio" name="test_kind" id="flexRadioKindMistake"
+      <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.rate_low %>
+      value=<%= Constants.test_kind.rate_low %> >
+    <label class="form-check-label" for="flexRadioKindRate_low">
+      正答率の低い問題から出題する(過去40%以下)
+    </label>
+  </div>
+  <div class="form-check">
     <input class="form-check-input" type="radio" name="test_kind" id="flexRadioKindFavorite"
       <%= "checked" if Setting.test_kinds[current_user.setting.test_kind] == Constants.test_kind.favorite %>
       value=<%= Constants.test_kind.favorite %> >

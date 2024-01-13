@@ -5,6 +5,8 @@
       全ての問題から出題する<br />
     <% when Constants.test_kind.mistake then %>
     過去間違えた問題から出題する<br />
+    <% when Constants.test_kind.rate_low then %>
+    正答率の低い問題から出題する(過去40%以下)<br />
     <% when Constants.test_kind.favorite then %>
     お気に入り問題から出題する<br />
   <% end %>

@@ -64,6 +64,7 @@ ja:
         default: 'デフォルト'
         mistake: '誤答から'
         favorite: 'favから'
+        rate_low: '低正答率から'
       bookmark_flg:
         favorite: 'お気に入り'
         known: '既知'
