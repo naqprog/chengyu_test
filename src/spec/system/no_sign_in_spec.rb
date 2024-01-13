@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "ログイン無しでできることの確認", type: :system, js: true do
+RSpec.feature "【ログイン無しでできることのテスト】", type: :system, js: true do
   scenario 'look chengyu' do
     # 成語一覧画面を見る
     visit root_path

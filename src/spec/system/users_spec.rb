@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
 
-RSpec.feature "サインイン", type: :system, js: true do
+RSpec.feature "【サインイン関連テスト】", type: :system, js: true do
 
   # ルートパスからサインアップからユーザが作れて、すぐアカウント削除できることを確認
   scenario 'sign-up and quit' do
@@ -35,10 +35,10 @@ RSpec.feature "サインイン", type: :system, js: true do
     fill_in 'パスワードを再度入力してください', with: 'password'
     click_on 'アカウント登録'
     # 作ったらログアウトする
-    page.save_screenshot
     click_on 'ログアウト'
-    page.save_screenshot
-    # ルートパスからサインアップからユーザが作れてログインまで行けることを確認
+    sleep(3)
+
+    # ルートパス・サインアップから同一メールアドレスでユーザを作ってみる
     visit root_path
     click_on 'サインアップ(新規作成)'
     fill_in 'メールアドレス', with: 'test_rspec@example.com'
@@ -48,7 +48,7 @@ RSpec.feature "サインイン", type: :system, js: true do
     expect{
       click_on 'アカウント登録'
       expect(page).to have_content 'メールアドレスはすでに存在します'
-  }.to not_change(User, :count).and not_change(Setting, :count)
+    }.to not_change(User, :count).and not_change(Setting, :count)
   end
 
 end
