@@ -255,11 +255,20 @@ class ExercisesController < ApplicationController
         # すべての問題から選ぶ
         qst = rand(Question.count) + 1
       when Constants.test_kind.mistake then
-        # 1問も過去に回答したことがなかったらエラーとしてnilで返す
+        # 1問も過去に誤答したことがなかったらエラーとしてnilで返す
         unless(Response.exists?(user_id: current_user.id, test_format: test_format, correct: false))
           return nil
         end
         qst = choice_mistake_question(test_format)
+      when Constants.test_kind.rate_low then
+        # 1問も過去に誤答したことがなかったらエラーとしてnilで返す
+        unless(Response.exists?(user_id: current_user.id, test_format: test_format, correct: false))
+          return nil
+        end
+        qst = choice_rate_low_question(test_format, 0.4) # 一旦正答率４割以下で設定
+        unless(qst) # エラー(正答率以下の問題が見つからない)でnilが返ってきてしまったら
+          return nil
+        end
       else
         # 例外を吐き出す
         raise RuntimeError, "ユーザ設定の出題形式設定に代入されている数値がおかしい"
@@ -290,6 +299,49 @@ class ExercisesController < ApplicationController
     # 配列のIDを重複がないようにする
     arr.uniq!
     return arr[rand(arr.length)]
+  end
+
+  # 正答率が低い問題のデータを参照してそこからランダムで出題してidを返す
+  def choice_rate_low_question(test_format, input_rate)
+    # 自分の、テストの種類(成語を聞くか、意味を聞くか)が一致している記録を抽出
+    my_data = Response.where(user_id: current_user.id)
+                      .where(test_format: test_format)
+
+    arr_mis = []
+    arr_mis_uniq = []
+    arr_cor = []
+    arr_fix = []
+    # 記録で正解したか不正解だったかを調べて、それぞれの配列に格納する
+    my_data.each do |data|
+      if data.correct
+        arr_cor << data.question_id # 正解したらこちらに
+      else
+        arr_mis << data.question_id # 不正解ならこちらに
+      end
+    end
+    # 調査用にuniq配列を作る
+    arr_mis_uniq = arr_mis.uniq
+    arr_mis_uniq.each do |mis_uniq|
+      # mis_uniqの１つ１つは間違ったことのあるID
+      # これが「正答率がinput_rateより下回っていることを調べて、条件にかなう配列を作れば良い」
+      am = arr_mis.count(mis_uniq) # 今までに 問題ID mis_uniq に対し、間違った個数
+      ac = arr_cor.count(mis_uniq) # 今までに 問題ID mis_uniq に対し、正答した個数
+      cor_rate = ac / (am + ac).to_f # 正答率
+      if( cor_rate < input_rate )
+        # せっかくなので既知リストに入っていないことも保証する
+        if user_signed_in?
+          if !current_user.known?(Question.find(mis_uniq))
+            arr_fix << mis_uniq # この問題ID mis_uniqは正答率が低いことを証明できた！
+          end
+        end
+      end
+    end
+    # 完成した配列が空っぽのまま、つまり全ての問題で正答率が高いならエラーとしてnilを返す
+    if(arr_fix.empty?)
+      return nil
+    end
+    # 完成した配列は「全て正答率が低い問題ID群」だから、ここからランダムで出題すればいい
+    return arr_fix[rand(arr_fix.length)]
   end
 
   # お気に入り問題のデータを参照してそこからランダムで出題してidを返す
