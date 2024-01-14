@@ -95,4 +95,19 @@ Rails.application.configure do
   # タイムゾーン設定
   # config.time_zone = "Tokyo"
   # config.active_record.default_timezone = :local
+
+  # メールサーバ設定(Gmail用)
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = {  host: 'chengyu-test-f74ca4cc4c2e.herokuapp.com' }
+
+  config.action_mailer.smtp_settings = {
+    address:              "smtp.gmail.com",
+    enable_starttls_auto: true,
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            ENV['GMAIL_USER'],
+    password:             ENV['GMAIL_PASS'],
+    authentication:       :plain
+  }
+
 end
