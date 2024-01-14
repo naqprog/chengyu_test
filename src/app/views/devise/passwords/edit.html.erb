@@ -17,10 +17,11 @@
     <%= f.label :password_confirmation, t('.confirm_new_password') %>
     <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'  %>
   </div>
-
+  <br />
   <div class="form-group">
     <%= f.submit t('.change_my_password'), class: 'btn btn-primary' %>
   </div>
 <% end %>
 
+<br />
 <%= render 'devise/shared/links' %>
