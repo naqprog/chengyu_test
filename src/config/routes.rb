@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  # 静的ページ
+  root 'static_pages#index'
+  get  'static_pages/privacy_policy', as: 'privacy_policy'
+    
   get 'responses/create'
   get 'responses/index', to: 'responses#index'
   get 'responses/daily', to: 'responses#daily'
@@ -10,8 +14,6 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
-
-  root 'static_pages#index'
 
   get 'exercises_ask_chengyu', to: 'exercises#ask_chengyu'
   post 'exercises_judgement_chengyu', to: 'exercises#judgement_chengyu'

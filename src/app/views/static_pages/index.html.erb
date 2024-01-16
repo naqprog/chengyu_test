@@ -1,22 +1,23 @@
 [現在プレリリース中！]<br />
 <h2>成語テストへようこそ！</h2>
+このサイトは中国語の成語を学習することを意図した問題出題サイトです！<br />
 <br />
 成語を聞く問題<br />
 <%= render 'shared/ask_chengyu_button' %>
 <br />
-<br />
 意味を聞く問題<br />
 <%= render 'shared/ask_mean_button' %>
 <br />
-<br />
-<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary btn-lg" %>
-<br />
-<br />
-<%= render 'shared/test_format_change' %>
+問題を調べる<br />
+<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary m-1" %>
 <br />
 プロファイル<br />
 <% if user_signed_in? %>
-  <%= link_to "成績・設定を見る", profiles_path, class: "btn btn-primary btn-lg" %><br />
+  <%= link_to "成績・設定を見る", profiles_path, class: "btn btn-primary m-1" %><br />
 <% else %>
 →アカウントを作りログインすると設定が保存できるようになります。<br />
 <% end %>
+<%= render 'shared/test_format_change' %>
+<hr>
+&copy;2024 NaQ(なっきゅ)<br />
+<%= link_to "プライバシーポリシー", privacy_policy_path, target: :_blank, rel: "noopener noreferrer" %>
