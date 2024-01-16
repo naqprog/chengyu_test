@@ -1,19 +1,19 @@
 [現在プレリリース中！]<br />
-<h2>成語テストへようこそ！</h2>
-このサイトは中国語の成語を学習することを意図した問題出題サイトです！<br />
-<br />
-成語を聞く問題<br />
-<%= render 'shared/ask_chengyu_button' %>
-<br />
-意味を聞く問題<br />
+<h4>中国語の成語特化型学習サイト「成語テスト」</h4>
+成語から意味を答える<br />
 <%= render 'shared/ask_mean_button' %>
 <br />
+意味から成語を答える<br />
+<%= render 'shared/ask_chengyu_button' %>
+<br />
+<hr />
 問題を調べる<br />
 <%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary m-1" %>
 <br />
+<hr />
 プロファイル<br />
 <% if user_signed_in? %>
-  <%= link_to "成績・設定を見る", profiles_path, class: "btn btn-primary m-1" %><br />
+  <%= link_to "成績を見る", profiles_path, class: "btn btn-primary m-1" %><br />
 <% else %>
 →アカウントを作りログインすると設定が保存できるようになります。<br />
 <% end %>
