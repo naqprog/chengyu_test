@@ -1,9 +1,9 @@
-<%= @question.id %>
-<br />
-[問題]
-<div class="notosans"><%= @question.chengyu_lang_setting(@use_letter_kind) %></div>
+[問題]<br />
+<span class="notosans lead"><%= @question.chengyu_lang_setting(@use_letter_kind) %></span><br />
+<%= @question.pinyin %>
 <%= form_with(url: exercises_judgement_mean_path, local: true) do |f| %>
 
+[回答]<br />
   <% @choices.each_with_index do |c,i| %>
     <div class="form-check">
       <input class="form-check-input" type="radio" id="flexRadio<%= i+1 %>" name="input_answer_id" value=<%= c.id %>>
@@ -16,7 +16,10 @@
 
   <input type="hidden" name="question_id" value="<%= @question.id %>" />
   <input type="hidden" name="use_letter_kind" value="<%= @use_letter_kind %>" />
-
+  <br />
   <button type="submit" class="btn btn-primary">回答する</button>
 
 <% end %>
+
+<hr />
+[問題ID] <%= @question.id %><br />

@@ -1,14 +1,14 @@
-現在の設定<br />
+現在の出題設定<br />
 <% if user_signed_in? %>
   <% case Setting.test_kinds[current_user.setting.test_kind]
     when Constants.test_kind.default then %>
-      全ての問題から出題する<br />
+      →全ての問題から出題する<br />
     <% when Constants.test_kind.mistake then %>
-    過去間違えた問題から出題する<br />
+      →過去間違えた問題から出題する<br />
     <% when Constants.test_kind.rate_low then %>
-    正答率の低い問題から出題する(過去40%以下)<br />
+      →正答率の低い問題から出題する(過去40%以下)<br />
     <% when Constants.test_kind.favorite then %>
-    お気に入り問題から出題する<br />
+      →お気に入り問題から出題する<br />
   <% end %>
 <% else %>
   →アカウントを作りログインすると回答記録が保存され、間違った問題を復習できるようになります。<br />

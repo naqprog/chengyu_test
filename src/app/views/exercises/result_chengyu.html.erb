@@ -1,23 +1,21 @@
-[問題ID]<%= @question.id %><br />
-<br />
-[入力された答え]<div class="notosans"><%= @input_answer %></div><br />
-[正しい答え]<div class="notosans"><%= @true_answer %></div><br />
-
-[ピンイン] <%= @question.pinyin %><br />
-
-[正答判定]<br />
+[問題]<br />
+<%= @question.mean %><br />
+[解答]<br />
+<span class="notosans lead"><%= @question.chengyu_lang_setting(@use_letter_kind) %></span><br />
+<%= @question.pinyin %><br />
 <% if @input_answer == @true_answer %>
   <font color="red">正解！</font>
 <% else %>
   <font color="blue">残念、不正解！</font>
+  (入力：<span class="notosans"><%= @input_answer %></span>)
 <% end %>
-<br />
-<br />
+
+<hr />
+[問題ID] <%= @question.id %><br />
 <%= render partial: "shared/favorite_button", locals: { question: @question }%>
-<br />
-<br />
+<hr />
 もう一度やってみる？<br />
-<%= render 'shared/ask_chengyu_button' %>
+<%= render 'shared/ask_mean_button' %>
 <br />
-<%= link_to "Topへ戻る", root_path, class: "btn btn-light btn-lg" %>
+<%= link_to "Topへ戻る", root_path, class: "btn btn-info m-1" %>
 <br />

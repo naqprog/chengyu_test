@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
-  <%= link_to "出題する", exercises_ask_chengyu_path(), class: "btn btn-primary btn-lg" %>
+  <%= link_to "出題する", exercises_ask_chengyu_path(), class: "btn btn-primary m-1" %>
 <% else %>
-  <%= link_to "簡体字で出題する", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.jiantizi), class: "btn btn-primary btn-lg", id: "chengyutest_jiantizi" %>
-  <%= link_to "繁体字で出題する", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.fantizi), class: "btn btn-primary btn-lg", id: "chengyutest_fantizi" %>
+  <%= link_to "簡体字で出題する", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.jiantizi), class: "btn btn-primary m-1", id: "chengyutest_jiantizi" %>
+  <%= link_to "繁体字で出題する", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.fantizi), class: "btn btn-primary m-1", id: "chengyutest_fantizi" %>
 <% end %>
