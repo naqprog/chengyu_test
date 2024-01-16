@@ -5,6 +5,9 @@
 </style>
 
 <h4>成語一覧</h4>
+<% if !user_signed_in? %>
+  <small class="text-muted">※ログインすると字体を簡体字・繁体字で切り替えられます</small>
+<% end %>
 
 <table class="table">
   <thead>
