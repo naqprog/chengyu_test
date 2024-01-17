@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
     # params[:q]には検索フォームで指定した検索条件が入る
     @search_data = Question.ransack(params[:q])
     @question = @search_data.result.page(params[:page]).per(10)
+
+    @question_all = Question.all
   end
 
   def show

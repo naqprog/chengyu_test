@@ -20,27 +20,27 @@
       <%= search_form_for @search_data, url: questions_path do |s| %>
         <div class="row align-items-center">
         <div class="col-md-9 g-0">
-        <% if user_signed_in? %>
-          <% if Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.jiantizi %>
-              <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", list: 'list-name' %>
-          <% else %>
-            <%= s.search_field :chengyu_fanti_cont, class: "form-control", placeholder: "成語(繁體字)を入力", list: 'list-name' %>
-          <% end %>
+        <% if user_signed_in? && Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.fantizi %>
+          <%= s.search_field :chengyu_fanti_cont, class: "form-control", placeholder: "成語(繁體字)を入力", autocomplete: :on, list: "question_list"  %>
         <% else %>
-          <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", list: 'list-name' %>
+          <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", autocomplete: :on, list: "question_list" %>
         <% end %>
-
-        <datalist id="list-name">
-          <option value="一心一意">
-          <option value="一五一十">
-          <option value="一毛不拔">
-        </datalist>
 
         </div>
         <div class="col-md-3 g-0">
           <%= s.submit "検索", class: 'btn btn-primary text-right' %>
         </div>
       <% end %>
+
+      <datalist id="question_list">
+        <% @question_all.each do |quest| %>
+          <% if user_signed_in? && Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.fantizi %>
+            <option value="<%= quest.chengyu_fanti %>">
+          <% else %>
+            <option value="<%= quest.chengyu_jianti %>">
+          <% end %>
+        <% end %>
+      </datalist>
 
     </div>
   </div>
