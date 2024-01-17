@@ -12,6 +12,9 @@
 
     <%= render 'shared/notosans' %>
 
+    <% if Rails.env.production? %>
+      <%= render 'layouts/google_analytics' %>
+    <% end %>
   </head>
 
   <header>
