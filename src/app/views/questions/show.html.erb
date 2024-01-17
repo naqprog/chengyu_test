@@ -38,7 +38,7 @@
         <span class="notosans">
           <% @synonym.each do |sy| %>
             <% qq = Question.find(sy) %>
-            <%= link_to(qq.chengyu_lang_setting(@letter_kind), question_show_path(qq.id)) %>
+            <%= link_to(qq.chengyu_lang_setting(@letter_kind), question_path(qq.id)) %>
             　
           <% end %>
         </span>

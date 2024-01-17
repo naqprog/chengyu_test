@@ -31,7 +31,7 @@
         <td><%= res.correct ? "◯" : "✕" %></td>
         <td>
           <span class="notosans">
-            <%= link_to(qq.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(qq.id)) %>
+            <%= link_to(qq.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_path(qq.id)) %>
           </span>
         </td>
 

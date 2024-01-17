@@ -32,7 +32,7 @@
         <td><%= question.id %></td>
         <td>
           <span class="notosans">
-            <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_show_path(question.id)) %>
+            <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_path(question.id)) %>
           </span>
         </td>
         <td><%= question.pinyin %></td>
