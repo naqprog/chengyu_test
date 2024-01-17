@@ -4,10 +4,47 @@
 }
 </style>
 
-<h4>成語一覧</h4>
-<% if !user_signed_in? %>
-  <small class="text-muted">※ログインすると字体を簡体字・繁体字で切り替えられます</small>
-<% end %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+
+      <h4>成語一覧</h4>
+      <% if !user_signed_in? %>
+        <small class="text-muted">※ログインすると字体を簡体字・繁体字で切り替えられます</small>
+      <% end %>
+
+    </div>
+    <div class="col-md-4">
+
+      <%= search_form_for @search_data, url: questions_path do |s| %>
+        <div class="row align-items-center">
+        <div class="col-md-9 g-0">
+        <% if user_signed_in? %>
+          <% if Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.jiantizi %>
+              <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", list: 'list-name' %>
+          <% else %>
+            <%= s.search_field :chengyu_fanti_cont, class: "form-control", placeholder: "成語(繁體字)を入力", list: 'list-name' %>
+          <% end %>
+        <% else %>
+          <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", list: 'list-name' %>
+        <% end %>
+
+        <datalist id="list-name">
+          <option value="一心一意">
+          <option value="一五一十">
+          <option value="一毛不拔">
+        </datalist>
+
+        </div>
+        <div class="col-md-3 g-0">
+          <%= s.submit "検索", class: 'btn btn-primary text-right' %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
 
 <table class="table">
   <thead>

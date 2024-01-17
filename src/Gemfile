@@ -70,6 +70,9 @@ gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'enum_help'
 
+# 検索
+gem 'ransack'
+
 # ページネーション
 gem 'kaminari'
 gem 'bootstrap5-kaminari-views'
