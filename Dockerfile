@@ -42,6 +42,7 @@ WORKDIR /app
 COPY ./src /app
 
 # Gemのインストール
+RUN gem update --system
 RUN bundle config --local set path 'vendor/bundle' \
   && bundle install
 

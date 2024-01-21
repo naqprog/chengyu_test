@@ -2,7 +2,7 @@
 <span class="lead"><%= safe_join(@question.mean.split("\n"),tag(:br)) %></span><br />
 <span class="notosans">
   <% @choices.each_with_index do |c, i| %>
-    <button type="button" class="btn btn-primary btn-lg m-1" id="answer<%= i %>" onclick="InputAnswerText('<%= c %>');">
+    <button type="button" class="btn btn-primary btn-lg m-1" id="answer<%= i %>" onclick="globalInputAnswerText('<%= c %>');">
       <%= c %>
     </button>
     <% if i == 4 %><br /><% end %>
@@ -19,7 +19,7 @@
   <div class="form-group">
     <label for="answer">[回答]</label>
     <input type=”text” class="form-control" name="input_answer" id="input_answer" value="<%= @input_answer %>" readonly>
-    <button type="button" class="btn btn-warning" onclick="DeleteAnswerText();">一字削除</button>
+    <button type="button" class="btn btn-warning" onclick="globalDeleteAnswerText();">一字削除</button>
   </div>
   <br />
   <button type="submit" class="btn btn-primary">回答する</button>
@@ -30,20 +30,6 @@
 ※文字ボタンをタップして、成語を作成してください(文字は重複する可能性があります)<br />
 ※４文字で答えを入力してください
 
-<script>
-  function InputAnswerText(str){
-    var elem = document.getElementById("input_answer");
-    if(elem.value.length < 4) {
-      elem.value = elem.value + str;
-    }
-  }
-
-  function DeleteAnswerText(){
-    var elem = document.getElementById("input_answer");
-    elem.value = elem.value.slice( 0, -1 );
-  }
-
-
-</script>
-
 </div>
+
+<%= javascript_include_tag 'ask_chengyu_input.js' %>

@@ -39,5 +39,6 @@ Rails.application.routes.draw do
   # 静的ページ
   root 'static_pages#index'
   get  'static_pages/privacy_policy', as: 'privacy_policy'
+  get  'static_pages/sample', as: 'sample'
 
 end
