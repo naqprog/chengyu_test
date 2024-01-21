@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../javascript/custom/custom_sample.js"],
+  "sourcesContent": ["document.getElementById('hello').textContent = \"Hello JavaScript\"\n"],
+  "mappings": ";;AAAA,WAAS,eAAe,OAAO,EAAE,cAAc;",
+  "names": []
+}

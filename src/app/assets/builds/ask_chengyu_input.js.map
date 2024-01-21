@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../javascript/custom/ask_chengyu_input.js"],
+  "sourcesContent": ["window.globalInputAnswerText = function(str){\n  var elem = document.getElementById(\"input_answer\");\n  if(elem.value.length < 4) {\n    elem.value = elem.value + str;\n  }\n}\nwindow.globalDeleteAnswerText = function(){\n  var elem = document.getElementById(\"input_answer\");\n  elem.value = elem.value.slice( 0, -1 );\n}\n"],
+  "mappings": ";;AAAA,SAAO,wBAAwB,SAAS,KAAI;AAC1C,QAAI,OAAO,SAAS,eAAe,cAAc;AACjD,QAAG,KAAK,MAAM,SAAS,GAAG;AACxB,WAAK,QAAQ,KAAK,QAAQ;AAAA,IAC5B;AAAA,EACF;AACA,SAAO,yBAAyB,WAAU;AACxC,QAAI,OAAO,SAAS,eAAe,cAAc;AACjD,SAAK,QAAQ,KAAK,MAAM,MAAO,GAAG,EAAG;AAAA,EACvC;",
+  "names": []
+}
