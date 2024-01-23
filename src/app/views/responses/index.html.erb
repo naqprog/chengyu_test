@@ -27,7 +27,7 @@
     <% @responses.each do |res| %>
       <% qq = Question.find(res.question_id) %>
 
-      <tr class="table-<%= res.correct ? "primary" : "warning" %>" >
+      <tr class="table-<%= res.correct ? "warning" : "primary" %>" >
         <td><%= res.correct ? "◯" : "✕" %></td>
         <td>
           <span class="notosans">
