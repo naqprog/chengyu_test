@@ -1,18 +1,14 @@
 <%= turbo_frame_tag "favorite_button" do %>
   <% if user_signed_in? %>
     <% if current_user.favorite?(question) %>
-      <%= link_to '★お気に入りを外す', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite),
-       { data: { "turbo-method": :delete }, class: "btn btn-outline btn-sm" } %> 
+      <%= link_to '★お気に入りを外す', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "btn btn-secondary btn-sm" } %> 
     <% else %>
-      <%= link_to '☆お気に入りをする', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite),
-       { data: { "turbo-method": :post }, class: "btn btn-primary btn-sm" } %> 
+      <%= link_to '☆お気に入りをする', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "btn btn-light btn-sm" } %> 
     <% end %>
     <% if current_user.known?(question) %>
-      <%= link_to '★既知リストから外す', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known),
-       { data: { "turbo-method": :delete }, class: "btn btn-outline btn-sm" } %> 
+      <%= link_to '★既知リストから外す', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "btn btn-secondary btn-sm" } %> 
     <% else %>
-      <%= link_to '☆既知リストに入れる', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known),
-       { data: { "turbo-method": :post }, class: "btn btn-primary btn-sm" } %> 
+      <%= link_to '☆既知リストに入れる', question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "btn btn-secondary btn-sm" } %> 
     <% end %>
   <% else %>
   ※ログインするとお気に入り問題等が保存できます<br />
