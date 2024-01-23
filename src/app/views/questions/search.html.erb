@@ -1,0 +1,10 @@
+<% @questions.each do |qqq| %>
+  <% if user_signed_in? && Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.fantizi %>
+    <li class="list-group-item list-group-item-action z-3" role="option" data-autocomplete-value="<%= qqq.id %>" data-autocomplete-label="<%= qqq.chengyu_fanti %>">
+    <%= qqq.chengyu_fanti %>
+  <% else %>
+    <li class="list-group-item list-group-item-action z-3" role="option" data-autocomplete-value="<%= qqq.id %>" data-autocomplete-label="<%= qqq.chengyu_jianti %>">
+    <%= qqq.chengyu_jianti %>
+  <% end %>
+  </li>
+<% end %>

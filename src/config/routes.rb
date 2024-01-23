@@ -19,8 +19,10 @@ Rails.application.routes.draw do
 
   # 問題データ：Question　お気に入りデータ・既知リスト：Bookmark
   resources :questions, only: %i[index show]  do
+    get :search, on: :collection
     resource :bookmark, only: %i[create destroy]
   end
+
   get 'bookmarks', to: 'bookmarks#index', as: 'bookmarks'
 
   # モデルに紐付かない
