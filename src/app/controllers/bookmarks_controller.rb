@@ -42,7 +42,8 @@ class BookmarksController < ApplicationController
     url = Rails.application.routes.recognize_path(request.referer)
 
     if (url[:controller] == "questions" && url[:action] == "show") \
-      || (url[:controller] == "exercises" && url[:action] == "result_chengyu")
+      || (url[:controller] == "exercises" && url[:action] == "result_chengyu") \
+      || (url[:controller] == "exercises" && url[:action] == "result_mean")
       render partial: 'shared/favorite_button' , locals: { question: question }
     elsif (url[:controller] == "questions" && url[:action] == "index") \
       || (url[:controller] == "responses" && url[:action] == "index") \
@@ -59,7 +60,8 @@ class BookmarksController < ApplicationController
     url = Rails.application.routes.recognize_path(request.referer)
 
     if (url[:controller] == "questions" && url[:action] == "show") \
-      || (url[:controller] == "exercises" && url[:action] == "result_chengyu")
+      || (url[:controller] == "exercises" && url[:action] == "result_chengyu") \
+      || (url[:controller] == "exercises" && url[:action] == "result_mean")
       render partial: 'shared/favorite_button' , locals: { question: question }
     elsif (url[:controller] == "questions" && url[:action] == "index") \
       || (url[:controller] == "responses" && url[:action] == "index") \
