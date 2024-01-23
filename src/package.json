@@ -12,7 +12,8 @@
     "nodemon": "^3.0.2",
     "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "stimulus-autocomplete": "^3.1.0"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",

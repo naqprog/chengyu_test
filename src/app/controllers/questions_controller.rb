@@ -32,4 +32,16 @@ class QuestionsController < ApplicationController
     end
 
   end
+
+  def search
+    if user_signed_in? && Setting.letter_kinds[current_user.setting.letter_kind] == Constants.letter_kind.fantizi
+      @questions = Question.where("chengyu_fanti like ?", "%#{params[:q]}%")
+    else
+      @questions = Question.where("chengyu_jianti like ?", "%#{params[:q]}%")
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end
