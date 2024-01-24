@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
-  <%= link_to "問題を解く", exercises_ask_chengyu_path(), class: "btn btn-primary m-1 btn-lg" %>
+  <%= link_to "問題を解く(意味→成語)", exercises_ask_chengyu_path(), class: "btn btn-primary m-3 btn-lg" %>
 <% else %>
-  <%= link_to "問題を解く(簡体字)", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.jiantizi), class: "btn btn-primary m-1 btn-lg", id: "chengyutest_jiantizi" %>
-  <%= link_to "問題を解く(繁体字)", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.fantizi), class: "btn btn-primary m-1 btn-lg", id: "chengyutest_fantizi" %>
+  <%= link_to "問題を解く(簡体字)", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.jiantizi), class: "btn btn-primary m-1", id: "chengyutest_jiantizi" %>
+  <%= link_to "問題を解く(繁体字)", exercises_ask_chengyu_path(force_letter_kind: Constants.letter_kind.fantizi), class: "btn btn-primary m-1", id: "chengyutest_fantizi" %>
 <% end %>

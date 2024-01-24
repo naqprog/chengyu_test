@@ -1,23 +1,43 @@
-[現在プレリリース中！]<br />
-<h4>中国語の成語特化型学習サイト「成語テスト」</h4>
-成語から意味を答える<br />
-<%= render 'shared/ask_mean_button' %>
-<br />
-意味から成語を答える<br />
-<%= render 'shared/ask_chengyu_button' %>
-<br />
-<hr />
-問題を調べる<br />
-<%= link_to "成語一覧を見る", questions_path, class: "btn btn-primary m-1" %>
-<br />
-<hr />
-プロファイル<br />
 <% if user_signed_in? %>
-  <%= link_to "成績を見る", profiles_path, class: "btn btn-primary m-1" %><br />
+  <p class="text-center">
+    <% case Setting.test_formats[current_user.setting.test_format]
+      when Constants.test_format.chengyu then %>
+        <%= render 'shared/ask_mean_button' %>
+      <% when Constants.test_format.mean then %>
+        <%= render 'shared/ask_chengyu_button' %>
+    <% end %>
+    <br />
+    <%= render 'shared/test_format_change' %>
+  </p>
 <% else %>
-→アカウントを作りログインすると設定が保存できるようになります。<br />
+  <p class="text-center">
+    <%= link_to "中国語の成語特化型学習サイト「成語テスト」とは？", explain_path, class: "btn btn-info m-1 btn-lg" %>
+  </p>
+  <h4 class="text-center">▼すぐ試してみる！▼</h4>
+  <p class="text-center">
+    成語→意味<br />
+    <%= render 'shared/ask_mean_button' %>
+    <br />
+    意味→成語<br />
+    <%= render 'shared/ask_chengyu_button' %>
+  </p>
+  <% end %>
+
+<hr />
+
+<p class="text-center">
+<%= link_to "成語一覧：問題を調べる", questions_path, class: "btn btn-primary m-1" %>
+</p>
+
+<% if user_signed_in? %>
+  <hr />
+  <p class="text-center">
+    <%= link_to "成績を見る", profiles_path, class: "btn btn-primary m-1" %><br />
+  </p>
 <% end %>
-<%= render 'shared/test_format_change' %>
 <hr>
-&copy;2024 NaQ(なっきゅ)<br />
-<%= link_to "プライバシーポリシー", privacy_policy_path, target: :_blank, rel: "noopener noreferrer" %>
+
+<p class="text-center">
+  &copy;2024 NaQ(なっきゅ)<br />
+  <%= link_to "プライバシーポリシー", privacy_policy_path, target: :_blank, rel: "noopener noreferrer" %>
+</p>

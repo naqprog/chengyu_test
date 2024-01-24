@@ -118,8 +118,8 @@ ja:
       already_signed_out: 既にログアウト済みです。
       new:
         sign_in: ログイン
-      signed_in: ログインしました。
-      signed_out: ログアウトしました。
+      signed_in: ログインしました、今日も成語の学習を楽しみましょう！
+      signed_out: ログアウトしました、お疲れ様でした！
     shared:
       links:
         back: 戻る
@@ -128,7 +128,7 @@ ja:
         forgot_your_password: パスワードを忘れた場合
         sign_in: ログインする
         sign_in_with_provider: "%{provider}でログイン"
-        sign_up: サインアップ(新規作成)
+        sign_up: サインアップ(会員登録)
       minimum_password_length: "（%{count}文字以上）"
     unlocks:
       new:

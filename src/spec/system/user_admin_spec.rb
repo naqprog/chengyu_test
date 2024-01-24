@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature "【権限関連テスト】", type: :system, js: true do
   scenario '新しく作ったユーザが /admin にアクセスできない' do
     visit root_path
-    click_on 'サインアップ(新規作成)'
+    click_on 'サインアップ(会員登録)'
     fill_in 'メールアドレス', with: 'test_rspec@example.com'
     fill_in 'パスワード', with: 'password'
     fill_in 'パスワードを再度入力してください', with: 'password'
