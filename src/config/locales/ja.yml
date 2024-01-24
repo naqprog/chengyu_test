@@ -363,7 +363,7 @@ ja:
       add_filter: "絞り込む..."
       bulk_menu_title: "選択項目を..."
       remove: "削除"
-      add_new: "新規作成"
+      add_new: "会員登録"
       chosen: "選択された%{name}"
       chose_all: "すべて選択"
       clear_all: "選択解除"

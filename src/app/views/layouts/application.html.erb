@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>成語テスト</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -20,7 +20,7 @@
   <header>
     <nav class="navbar navbar-expand-md bg-primary navbar-dark">
       <div class="container-fluid">
-        <%= link_to 'ChengYu-Test', root_path, class: 'navbar-brand' %>
+        <%= link_to '成語テスト[プレリリース中]', root_path, class: 'navbar-brand' %>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
               </li>
             <% else %>
               <li class="nav-item">
-                <%= link_to 'サインアップ(新規作成)', new_user_registration_path, class: 'nav-link' %>
+                <%= link_to 'サインアップ(会員登録)', new_user_registration_path, class: 'nav-link' %>
               </li>
               <li class="nav-item">
                 <%= link_to 'ログイン', new_user_session_path, class: 'nav-link' %>

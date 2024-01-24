@@ -7,7 +7,7 @@ RSpec.feature "【サインイン関連テスト】", type: :system, js: true do
   # ルートパスからサインアップからユーザが作れて、すぐアカウント削除できることを確認
   scenario 'sign-up and quit' do
     visit root_path
-    click_on 'サインアップ(新規作成)'
+    click_on 'サインアップ(会員登録)'
     fill_in 'メールアドレス', with: 'test_rspec@example.com'
     fill_in 'パスワード', with: 'password'
     fill_in 'パスワードを再度入力してください', with: 'password'
@@ -29,7 +29,7 @@ RSpec.feature "【サインイン関連テスト】", type: :system, js: true do
   scenario 'sign-up same email user' do
     visit root_path
     # テストユーザーをまず作る
-    click_on 'サインアップ(新規作成)'
+    click_on 'サインアップ(会員登録)'
     fill_in 'メールアドレス', with: 'test_rspec@example.com'
     fill_in 'パスワード', with: 'password'
     fill_in 'パスワードを再度入力してください', with: 'password'
@@ -40,7 +40,7 @@ RSpec.feature "【サインイン関連テスト】", type: :system, js: true do
 
     # ルートパス・サインアップから同一メールアドレスでユーザを作ってみる
     visit root_path
-    click_on 'サインアップ(新規作成)'
+    click_on 'サインアップ(会員登録)'
     fill_in 'メールアドレス', with: 'test_rspec@example.com'
     fill_in 'パスワード', with: 'password'
     fill_in 'パスワードを再度入力してください', with: 'password'

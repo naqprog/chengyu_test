@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-  <%= link_to "問題を解く", exercises_ask_mean_path, class: "btn btn-primary m-1 btn-lg" %>
+  <%= link_to "問題を解く(成語→意味)", exercises_ask_mean_path, class: "btn btn-primary m-3 btn-lg" %>
 <% else %>
   <%= link_to "問題を解く(簡体字)", exercises_ask_mean_path(force_letter_kind: "jiantizi"), class: "btn btn-primary m-1 btn-lg", id: "meantest_jiantizi" %>
   <%= link_to "問題を解く(繁体字)", exercises_ask_mean_path(force_letter_kind: "fantizi"), class: "btn btn-primary m-1 btn-lg", id: "meantest_fantizi" %>
