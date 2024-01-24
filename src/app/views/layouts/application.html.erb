@@ -15,12 +15,13 @@
     <% if Rails.env.production? %>
       <%= render 'layouts/google_analytics' %>
     <% end %>
+    <%= favicon_link_tag('favicon.ico') %>
   </head>
 
   <header>
     <nav class="navbar navbar-expand-md bg-primary navbar-dark">
       <div class="container-fluid">
-        <%= link_to '成語テスト[プレリリース中]', root_path, class: 'navbar-brand' %>
+        <%= link_to '成語テスト[プレリリース中]', root_path, class: 'navbar-brand' %>あ
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
