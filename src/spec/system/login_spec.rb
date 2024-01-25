@@ -7,7 +7,7 @@ RSpec.feature "【ログインしてできることのテスト】", type: :syst
     sign_in @user
   end
 
-  scenario '成語一覧でのお気に入り・既知リスト操作' do
+  scenario '成語一覧でのお気に入り・既知リストを操作できる' do
     # 成語一覧画面を見る
     visit root_path
     click_on '成語一覧：問題を調べる'
@@ -84,12 +84,23 @@ RSpec.feature "【ログインしてできることのテスト】", type: :syst
     click_on '既知リストを見る'
     expect(page).to have_content '既知リスト'
     click_on '戻る'
-
   end
 
-  scenario '設定を変更することができる' do
+  scenario '個人設定を変更することができる' do
     visit root_path
     click_on '設定変更'
+    choose "繁体字"
+    choose "成語を見て、意味を答える"
+    choose "お気に入り問題から出題する"
+    click_on '変更する'
+    sleep(3)
+
+    # 実際にデータベースの設定が変更されていることを確認
+    s_user = User.find_by(email: @user.email)
+    s_setting = Setting.find_by(user_id: s_user.id)
+    expect(s_setting.letter_kind).to eq "fantizi"
+    expect(s_setting.test_format).to eq "mean"
+    expect(s_setting.test_kind).to eq "favorite"
   end
 
 end
