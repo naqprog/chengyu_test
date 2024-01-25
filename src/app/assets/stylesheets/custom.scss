@@ -1,23 +1,26 @@
 // ベース色変更
-$primary: #795548;
+$primary:   #795548;
 $secondary: #FF9800;
-$info: #3F51B5;
-$notice: #212121;
-$success: #004D40;
+$info:      #3F51B5;
+$notice:    #212121;
+$success:   #004D40;
 
 // ボタンのhover時の色変化量
 $btn-hover-bg-shade-amount: 30%;
 $btn-hover-bg-tint-amount:  30%;
 
 // アコーディオン
-// $accordion-color: #XXXXXX; // オープン時のテキスト文字
-$accordion-bg: #FFFFFF; // オープン時のテキスト地
-$accordion-border-color:                  #999999; // 縁の線色
-// $accordion-button-color:                  #XXXXXX; // 非オープン時のタイトル文字
-$accordion-button-bg:                     #EFEBE9; // 非オープン時のタイトル地
-$accordion-button-active-bg:              #795548; // オープン時のタイトル地
-$accordion-button-active-color:           #FFFFFF; // オープン時のタイトル文字
+// $accordion-color:                 #XXXXXX; // オープン時のテキスト文字
+$accordion-bg:                     #FFFFFF; // オープン時のテキスト地
+$accordion-border-color:           #999999; // 縁の線色
+// $accordion-button-color:          #XXXXXX; // 非オープン時のタイトル文字
+$accordion-button-bg:              #EFEBE9; // 非オープン時のタイトル地
+$accordion-button-active-bg:       #795548; // オープン時のタイトル地
+$accordion-button-active-color:    #FFFFFF; // オープン時のタイトル文字
+
+// ページネーション
+$pagination-disabled-bg:           #FFF3E0;
 
 // 背景色
-$body-bg: #FFF3E0;
+$body-bg:  #FFF3E0;
 $input-bg: #FFFFFF;
