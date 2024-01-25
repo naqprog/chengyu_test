@@ -67,7 +67,7 @@ RSpec.feature "【ログインしてできることのテスト】", type: :syst
 
     # 成績を見に行ってエラーを起こさない
     visit root_path
-    click_on '成績を見る'
+    click_on '成績・お気に入り・既知リストを見る'
     click_on '回答履歴一覧を見る'
     expect(page).to have_content 'あなたの今までの回答記録'
     click_on '戻る'
