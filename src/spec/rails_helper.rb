@@ -69,4 +69,7 @@ RSpec.configure do |config|
     driven_by :headless_chrome
   end
 
+  # current_userを適用させるためにdeviseをRspecに導入
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
 end

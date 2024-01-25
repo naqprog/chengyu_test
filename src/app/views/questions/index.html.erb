@@ -57,7 +57,7 @@
   </thead>
   <tbody>
 
-    <% @question.each do |question| %>
+    <% @question.each_with_index do |question, i| %>
 
       <tr>
         <td><%= question.id %></td>
@@ -78,14 +78,14 @@
             <% if current_user.favorite?(question) %>
               <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
             <% else %>
-              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
-            <% end%>
+              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_fav_link_#{i}" } %>
+          <% end%>
           </td>
           <td>
             <% if current_user.known?(question) %>
               <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
             <% else %>
-              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link" }  %>
+              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_known_link_#{i}" } %>
             <% end%>
           </td>
         <% end %>

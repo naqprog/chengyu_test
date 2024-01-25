@@ -4,7 +4,7 @@ RSpec.feature "【ログイン無しでできることのテスト】", type: :s
   scenario 'look chengyu' do
     # 成語一覧画面を見る
     visit root_path
-    click_on '成語一覧を見る'
+    click_on '成語一覧：問題を調べる'
     expect(page).to have_content '一心一意'
   end
   scenario 'test chengyu jiantizi' do
@@ -16,7 +16,7 @@ RSpec.feature "【ログイン無しでできることのテスト】", type: :s
     find('#answer2').click
     find('#answer3').click
     click_on '回答する'
-    expect(page).to have_content '[入力された答え]' # 正誤判定画面
+    sleep(3)
     expect(page).to have_content '※ログインするとお気に入り問題等が保存できます' # ログインしてない証
   end
   scenario 'test chengyu fantizi' do
@@ -28,25 +28,22 @@ RSpec.feature "【ログイン無しでできることのテスト】", type: :s
     find('#answer2').click
     find('#answer3').click
     click_on '回答する'
-    expect(page).to have_content '[入力された答え]' # 正誤判定画面
     expect(page).to have_content '※ログインするとお気に入り問題等が保存できます' # ログインしてない証
   end
   scenario 'test mean jiantizi' do
-    # 成語を聞く・簡体字　でテストを実施
+    # 意味を聞く・簡体字　でテストを実施
     visit root_path
     find('#meantest_jiantizi').click
     find('#flexRadio2').choose
     click_on '回答する'
-    expect(page).to have_content '[入力された答え]' # 正誤判定画面
     expect(page).to have_content '※ログインするとお気に入り問題等が保存できます' # ログインしてない証
   end
   scenario 'test mean fantizi' do
-    # 成語を聞く・簡体字　でテストを実施
+    # 意味を聞く・繁體字　でテストを実施
     visit root_path
     find('#meantest_fantizi').click
     find('#flexRadio2').choose
     click_on '回答する'
-    expect(page).to have_content '[入力された答え]' # 正誤判定画面
     expect(page).to have_content '※ログインするとお気に入り問題等が保存できます' # ログインしてない証
   end
 

@@ -102,7 +102,7 @@ ja:
         title: "%{resource}編集"
         unhappy: 気に入りません
         update: 更新
-        we_need_your_current_password_to_confirm_your_changes: 変更を反映するには「現在のパスワード」を入力して、更新ボタンを押してください
+        we_need_your_current_password_to_confirm_your_changes: メールアドレス・パスワード、どちらの場合も変更を反映するには「現在のパスワード」を入力して、更新ボタンを押してください
         back: 設定変更ページに戻る
       new:
         sign_up: アカウント登録
