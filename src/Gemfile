@@ -85,6 +85,9 @@ group :development, :test do
 
   # テスト用
   gem "rspec-rails", '~> 6.0.0'
+
+  # Rspecにdevise導入のため
+  gem 'factory_bot_rails'
 end
 
 group :development do
