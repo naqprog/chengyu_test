@@ -94,6 +94,11 @@ group :development do
   # jsやcssのコンパイルのために平行で走らせるプロセス
   gem 'foreman', '~> 0.87.2'
 
+  # Linterツール
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+#  gem 'rubocop-performance', require: false # パフォーマンスに関しては一旦カットして後日対応
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
