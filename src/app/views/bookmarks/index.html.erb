@@ -26,7 +26,7 @@
   </thead>
   <tbody>
 
-    <% @question.each do |question| %>
+    <% @questions.each do |question| %>
 
       <tr>
         <td><%= question.id %></td>
@@ -60,5 +60,5 @@
 
   </tbody>
 </table>
-<%= paginate @question, theme: 'bootstrap-5', pagination_class: "justify-content-center" %><br />
+<%= paginate @questions, theme: 'bootstrap-5', pagination_class: "justify-content-center" %><br />
 <%= render 'shared/navigate_button_except_question' %>

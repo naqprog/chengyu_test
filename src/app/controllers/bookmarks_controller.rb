@@ -1,71 +1,76 @@
 class BookmarksController < ApplicationController
+  before_action :set_bookmark_type, only: [:index]
 
   # 一覧表示
   def index
-    @flg = params[:flg].to_i
-
-    # 条件に合ったブックマークデータを取得する
-    bookmark = []
-    if @flg == Constants.bookmark_flg.favorite
-      bookmark = Bookmark.where(user_id: current_user.id).where(favorite: true)
-      if bookmark.empty?
-        # エラーで返す
-        flash[:danger] = "お気に入りが存在しません"
-        return redirect_to profiles_path
-      end
-    elsif @flg == Constants.bookmark_flg.known
-      bookmark = Bookmark.where(user_id: current_user.id).where(known: true)
-      if bookmark.empty?
-        # エラーで返す
-        flash[:danger] = "既知リストが存在しません"
-        return redirect_to profiles_path
-      end
+    if @bookmarks.empty?
+      # エラーメッセージを出力する
+      flash[:danger] = bookmark_type_message
+      redirect_to profiles_path and return
     end
+
     # 問題IDでソート
-    bookmark.order!(:question_id)
+    @bookmarks.order!(:question_id)
 
     # データが取得できたら問題データを入手
-    @question = []
-    bookmark.each do |bk|
-      @question << Question.find(bk.question_id)
+    @questions = []
+    @bookmarks.each do |bk|
+      @questions << Question.find(bk.question_id)
     end
     # ページネーションできる型に変換
-    @question = Kaminari.paginate_array(@question).page(params[:page]).per(10)
-
+    @questions = Kaminari.paginate_array(@questions).page(params[:page]).per(10)
   end
 
+  # ある問題に対し、favoriteあるいはknownのフラグを付ける
   def create
     question = Question.find(params[:question_id])
     current_user.bookmark(question, params[:flg])
-
-    # アクションがリクエストされた元を調べて、それに対応したレンダリングをリクエストする
-    url = Rails.application.routes.recognize_path(request.referer)
-
-    if (url[:controller] == "questions" && url[:action] == "show") \
-      || (url[:controller] == "exercises" && url[:action] == "result_chengyu") \
-      || (url[:controller] == "exercises" && url[:action] == "result_mean")
-      render partial: 'shared/favorite_button' , locals: { question: question }
-    elsif (url[:controller] == "questions" && url[:action] == "index") \
-      || (url[:controller] == "responses" && url[:action] == "index") \
-      || (url[:controller] == "bookmarks" && url[:action] == "index")
-      redirect_to request.referer
-    end
+    handle_redirection(question)
   end
 
+  # ある問題に対し、favoriteあるいはknownのフラグを外す
   def destroy
     question = current_user.bookmarks_questions.find(params[:question_id])
     current_user.unbookmark(question, params[:flg])
+    handle_redirection(question)
+  end
 
-    # アクションがリクエストされた元を調べて、それに対応したレンダリングをリクエストする
+  private
+
+  # ユーザがbookmarkしているデータを書き集める
+  def set_bookmark_type
+    @bookmarks = case params[:flg].to_i
+                 when Constants.bookmark_flg.favorite
+                   current_user.bookmarks.where(favorite: true)
+                 when Constants.bookmark_flg.known
+                   current_user.bookmarks.where(known: true)
+                 else
+                   raise '表示用に事前にbookmarkされているデータを収集する際、ありえないbookmark_flgの内部状況でメソッドコールが行われている'
+                 end
+  end
+
+  def bookmark_type_message
+    case params[:flg].to_i
+    when Constants.bookmark_flg.favorite
+      'お気に入りが存在しません'
+    when Constants.bookmark_flg.known
+      '既知リストが存在しません'
+    else
+      raise 'エラーメッセージを振り分ける際、ありえないbookmark_flgの内部状況でメソッドコールが行われている'
+    end
+  end
+
+  def handle_redirection(question)
+    # 直前にいたURLを入手
     url = Rails.application.routes.recognize_path(request.referer)
-
-    if (url[:controller] == "questions" && url[:action] == "show") \
-      || (url[:controller] == "exercises" && url[:action] == "result_chengyu") \
-      || (url[:controller] == "exercises" && url[:action] == "result_mean")
-      render partial: 'shared/favorite_button' , locals: { question: question }
-    elsif (url[:controller] == "questions" && url[:action] == "index") \
-      || (url[:controller] == "responses" && url[:action] == "index") \
-      || (url[:controller] == "bookmarks" && url[:action] == "index")
+    # URLによってrenderするかredirectするかを変える
+    if url[:controller] == 'questions' && url[:action] == 'show'
+      render partial: 'shared/favorite_button', locals: { question: }
+    elsif url[:controller] == 'exercises' && (url[:action] == 'result_chengyu' || url[:action] == 'result_mean')
+      render partial: 'shared/favorite_button', locals: { question: }
+    elsif (url[:controller] == 'questions' && url[:action] == 'index') ||
+          (url[:controller] == 'responses' && url[:action] == 'index') ||
+          (url[:controller] == 'bookmarks' && url[:action] == 'index')
       redirect_to request.referer
     end
   end
