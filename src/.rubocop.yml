@@ -1,0 +1,27 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+### ルールのカスタマイズ
+
+# クラスの前には必ずコメント行が必須で、そのクラスを説明しなければならない
+Style/Documentation:
+  Enabled: false
+
+# 文字列リテラルに対してfreezeを宣言する必要がある
+# ruby3以降は自動的にその処置となる
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# 1行の文字数制限
+LineLength:
+  Max: 140
+
+# 複雑度の許容スコア
+Metrics/AbcSize:
+  Max: 25
+
+# 1つのメソッドでの行数
+Metrics/MethodLength:
+  Max: 20

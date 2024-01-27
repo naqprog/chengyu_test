@@ -36,7 +36,7 @@
       <td class="text-end pe-3">類義語</td>
       <td>
         <span class="notosans">
-          <% @synonym.each do |sy| %>
+          <% @synonyms.each do |sy| %>
             <% qq = Question.find(sy) %>
             <%= link_to(qq.chengyu_lang_setting(@letter_kind), question_path(qq.id)) %>
             　
