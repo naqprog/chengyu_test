@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8  position-relative z-2">
 
       <h4>成語一覧</h4>
       <% if !user_signed_in? %>
@@ -28,7 +28,7 @@
                 <%= s.search_field :chengyu_jianti_cont, class: "form-control", placeholder: "成語(簡体字)を入力", data: { autocomplete_target: 'input' } %>
                 <%= s.hidden_field :chengyu_jianti, data: { autocomplete_target: 'hidden' } %>
               <% end %>
-              <ul class="list-group" style="z-index: 3; position:relative; overflow:auto; width: 100%; max-height: 200px;" data-autocomplete-target="results"></ul>
+              <ul class="list-group position-absolute z-3 list-group-item-light" style=" overflow:auto; width: 200px; max-height: 200px;" data-autocomplete-target="results"></ul>
               </div>
             <div class="col-3">
               <%= s.submit "検索", class: 'btn btn-primary text-right' %>
@@ -39,61 +39,61 @@
 
     </div>
   </div>
-</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">成語</th>
-      <th scope="col">ピンイン</th>
-      <th scope="col">意味</th>
-
-      <% if user_signed_in? %>
-        <th scope="col">fav</th>
-        <th scope="col">既知</th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-
-    <% @questions.each_with_index do |question, i| %>
-
+  <table class="table position-relative z-1">
+    <thead>
       <tr>
-        <td><%= question.id %></td>
-        <td>
-          <span class="notosans">
-          <% if user_signed_in? %>
-            <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_path(question.id)) %>
-          <% else %>
-            <%= link_to(question.chengyu_lang_setting(Constants.letter_kind.jiantizi), question_path(question.id)) %>
-          <% end %>
-          </span>
-        </td>
-        <td><%= question.pinyin %></td>
-        <td class="col-6" ><%= question.mean %></td>
+        <th scope="col">ID</th>
+        <th scope="col">成語</th>
+        <th scope="col">ピンイン</th>
+        <th scope="col">意味</th>
 
         <% if user_signed_in? %>
-          <td>
-            <% if current_user.favorite?(question) %>
-              <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
-            <% else %>
-              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_fav_link_#{i}" } %>
-          <% end%>
-          </td>
-          <td>
-            <% if current_user.known?(question) %>
-              <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
-            <% else %>
-              <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_known_link_#{i}" } %>
-            <% end%>
-          </td>
+          <th scope="col">fav</th>
+          <th scope="col">既知</th>
         <% end %>
-
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
 
-  </tbody>
-</table>
+      <% @questions.each_with_index do |question, i| %>
+
+        <tr>
+          <td><%= question.id %></td>
+          <td>
+            <span class="notosans">
+            <% if user_signed_in? %>
+              <%= link_to(question.chengyu_lang_setting(Setting.letter_kinds[current_user.setting.letter_kind]), question_path(question.id)) %>
+            <% else %>
+              <%= link_to(question.chengyu_lang_setting(Constants.letter_kind.jiantizi), question_path(question.id)) %>
+            <% end %>
+            </span>
+          </td>
+          <td><%= question.pinyin %></td>
+          <td class="col-6" ><%= question.mean %></td>
+
+          <% if user_signed_in? %>
+            <td>
+              <% if current_user.favorite?(question) %>
+                <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+              <% else %>
+                <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.favorite), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_fav_link_#{i}" } %>
+            <% end%>
+            </td>
+            <td>
+              <% if current_user.known?(question) %>
+                <%= link_to "★", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :delete }, class: "no_underline_link" } %>
+              <% else %>
+                <%= link_to "☆", question_bookmark_path(question_id: question.id, flg: Constants.bookmark_flg.known), { data: { "turbo-method": :post }, class: "no_underline_link", id: "bookmark_known_link_#{i}" } %>
+              <% end%>
+            </td>
+          <% end %>
+
+        </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
 <%= paginate @questions, theme: 'bootstrap-5', pagination_class: "justify-content-center" %><br />
 <%= render 'shared/navigate_button_except_question' %>
