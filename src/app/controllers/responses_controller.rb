@@ -40,10 +40,12 @@ class ResponsesController < ApplicationController
 
   private
 
+  # 事前にResponseデータをユーザで絞り込む
   def set_user_responses
     @user_responses = Response.where(user_id: current_user.id)
   end
 
+  # ストロングパラメータ
   def response_params
     params.require(:response).permit(:test_format, :correct).merge(user_id: current_user.id)
   end
