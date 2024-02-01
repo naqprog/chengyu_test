@@ -7,6 +7,9 @@
 # Ignore bundler config.
 src/.bundle
 
+# インストールパッケージ群は不要
+src/node_modules/
+
 # Ignore all logfiles and tempfiles.
 src/log/*
 src/tmp/*
