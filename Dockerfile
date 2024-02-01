@@ -41,6 +41,9 @@ RUN curl -sS -o /tmp/NotoSansCJKjp-hinted.zip https://noto-website-2.storage.goo
 WORKDIR /app
 COPY ./src /app
 
+# node_modulesへのインストール
+RUN yarn install
+
 # Gemのインストール
 RUN gem update --system
 RUN bundle config --local set path 'vendor/bundle' \
