@@ -21,7 +21,11 @@
   <header>
     <nav class="navbar navbar-expand-md bg-primary navbar-dark">
       <div class="container-fluid">
-        <%= link_to '成語テスト[プレリリース中]', root_path, class: 'navbar-brand' %>
+        <% if Rails.env.development? %>
+          <%= link_to '成語テスト[プレリリース中]【debug】', root_path, class: 'navbar-brand' %>
+        <% else %>
+          <%= link_to '成語テスト[プレリリース中]', root_path, class: 'navbar-brand' %>
+        <% end %>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
