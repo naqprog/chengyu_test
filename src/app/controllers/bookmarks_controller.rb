@@ -13,10 +13,9 @@ class BookmarksController < ApplicationController
     @bookmarks.order!(:question_id)
 
     # データが取得できたら問題データを入手
-    @questions = []
-    @bookmarks.each do |bk|
-      @questions << Question.find(bk.question_id)
-    end
+    question_ids = @bookmarks.pluck(:question_id) # 問題IDの配列を取得
+    @questions = Question.find(question_ids)      # question_idsに存在しないidが入っていた場合例外を発生
+
     # ページネーションできる型に変換
     @questions = Kaminari.paginate_array(@questions).page(params[:page]).per(10)
   end
