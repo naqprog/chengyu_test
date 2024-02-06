@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   # 回答データ：Response
   get 'responses/create'
   get 'responses/index', to: 'responses#index'
-  get 'responses/daily', to: 'responses#daily'
+
+  resources :responses_daily, only: [:index]
 
   # 個人設定データ：Setting
   get 'settings/edit'
