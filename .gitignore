@@ -10,6 +10,9 @@ src/.bundle
 # インストールパッケージ群は不要
 src/node_modules/
 
+# yarn
+yarn-error.log
+
 # Ignore all logfiles and tempfiles.
 src/log/*
 src/tmp/*
