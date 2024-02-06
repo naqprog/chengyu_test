@@ -16,7 +16,7 @@
 <%= render 'shared/display_correct_rate', rate: rate_mean, cor: cor_mean, res: res_mean %>
 <br />
 <%= link_to "回答履歴一覧を見る", responses_index_path, class: "btn btn-primary m-1" %>
-<%= link_to "デイリーの回答履歴を見る", responses_daily_path, class: "btn btn-primary m-1" %><br />
+<%= link_to "デイリーの回答履歴を見る", responses_daily_index_path, class: "btn btn-primary m-1" %><br />
 <%= link_to "お気に入り一覧を見る", bookmarks_path(flg: Constants.bookmark_flg.favorite), class: "btn btn-primary m-1" %>
 <%= link_to "既知リストを見る", bookmarks_path(flg: Constants.bookmark_flg.known), class: "btn btn-primary m-1" %><br />
 <br />
