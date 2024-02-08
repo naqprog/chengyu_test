@@ -29,12 +29,10 @@ Rails.application.routes.draw do
   # モデルに紐付かない
 
   # 出題ページ
-  get 'exercises_ask_chengyu', to: 'exercises#ask_chengyu'
-  post 'exercises_judgement_chengyu', to: 'exercises#judgement_chengyu'
-  get 'exercises_result_chengyu', to: 'exercises#result_chengyu'
-  get 'exercises_ask_mean', to: 'exercises#ask_mean'
-  post 'exercises_judgement_mean', to: 'exercises#judgement_mean'
-  get 'exercises_result_mean', to: 'exercises#result_mean'
+  resources :exercises_chengyu, only: [:new, :create]
+  get 'exercises_chengyu', to: 'exercises_chengyu#show', as: 'exercises_chengyu_show'
+  resources :exercises_mean, only: [:new, :create]
+  get 'exercises_mean', to: 'exercises_mean#show', as: 'exercises_mean_show'
 
   # 個人設定編集
   get 'profiles', to: 'profiles#index'

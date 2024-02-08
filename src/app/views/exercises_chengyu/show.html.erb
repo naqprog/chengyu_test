@@ -1,7 +1,7 @@
 [問題]<br />
 <%= @question.mean %><br />
 [解答]<br />
-<span class="notosans lead"><%= @question.chengyu_lang_setting(@use_letter_kind) %></span><br />
+<span class="notosans lead"><%= @true_answer %></span><br />
 <%= @question.pinyin %><br />
 <% if @input_answer == @true_answer %>
   <font color="red">正解！</font>
