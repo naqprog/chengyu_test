@@ -10,12 +10,12 @@
 </span>
 <br />
 
-<%= form_with(url: exercises_judgement_chengyu_path, local: true) do |f| %>
+<%= form_with(url: exercises_chengyu_index_path, local: true) do |f| %>
   <input type="hidden" name="question_id" value="<%= @question.id %>" />
   <input type="hidden" name="choices_join" value="<%= @choices_join %>" />
   <input type="hidden" name="input_answer" value="<%= @input_answer %>" />
   <input type="hidden" name="use_letter_kind" value="<%= @use_letter_kind %>" />
-  
+
   <div class="form-group">
     <label for="answer">[回答]</label>
     <input type=”text” class="form-control" name="input_answer" id="input_answer" value="<%= @input_answer %>" readonly>

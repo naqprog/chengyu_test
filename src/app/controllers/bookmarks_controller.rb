@@ -65,7 +65,8 @@ class BookmarksController < ApplicationController
     # URLによってrenderするかredirectするかを変える
     if url[:controller] == 'questions' && url[:action] == 'show'
       render partial: 'shared/favorite_button', locals: { question: }
-    elsif url[:controller] == 'exercises' && (url[:action] == 'result_chengyu' || url[:action] == 'result_mean')
+    elsif (url[:controller] == 'exercises_chengyu' && url[:action] == 'show') ||
+          (url[:controller] == 'exercises_mean' && url[:action] == 'show')
       render partial: 'shared/favorite_button', locals: { question: }
     elsif (url[:controller] == 'questions' && url[:action] == 'index') ||
           (url[:controller] == 'responses' && url[:action] == 'index') ||
