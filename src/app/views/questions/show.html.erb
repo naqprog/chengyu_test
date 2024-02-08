@@ -47,10 +47,10 @@
     <tr>
       <td class="text-end pe-3">辞書</td>
       <td>
-        <%= link_to 'Weblio日中中日辞典', "https://cjjc.weblio.jp/content/#{URI.encode_www_form_component(@question.chengyu_jianti)}", target: "_blank" %><br />
-        <%= link_to '漢典', "https://www.zdic.net/hans/#{URI.encode_www_form_component(@question.chengyu_jianti)}", target: "_blank" %><br />
-        <%= link_to '中華民國教育部 成語典', "https://dict.idioms.moe.edu.tw/idiomList.jsp?idiom=#{URI.encode_www_form_component(@question.chengyu_fanti)}", target: "_blank" %><br />
-        <%= link_to '萌典', "https://www.moedict.tw/#{URI.encode_www_form_component(@question.chengyu_fanti)}", target: "_blank" %>
+        <%= link_to 'Weblio日中中日辞典(簡体字→日本語)', "https://cjjc.weblio.jp/content/#{URI.encode_www_form_component(@question.chengyu_jianti)}", target: "_blank" %><br />
+        <%= link_to '漢典(簡体字)', "https://www.zdic.net/hans/#{URI.encode_www_form_component(@question.chengyu_jianti)}", target: "_blank" %><br />
+        <%= link_to '中華民國教育部 成語典(繁体字)', "https://dict.idioms.moe.edu.tw/idiomList.jsp?idiom=#{URI.encode_www_form_component(@question.chengyu_fanti)}", target: "_blank" %><br />
+        <%= link_to '萌典(繁体字)', "https://www.moedict.tw/#{URI.encode_www_form_component(@question.chengyu_fanti)}", target: "_blank" %>
       </td>
     </tr>
     <tr>
