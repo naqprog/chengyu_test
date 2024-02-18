@@ -79,7 +79,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {  host: 'localhost', port: 3000 }
 
   # メールサーバ設定(Gmail用)
-  
+
   # config.action_mailer.raise_delivery_errors = true
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.default_url_options = {  host: 'localhost', port: 3000 }
@@ -94,4 +94,5 @@ Rails.application.configure do
   #   authentication:       :plain
   # }
 
+  config.hosts << "web:9999"
 end

@@ -1,4 +1,4 @@
-FROM ruby:3.2.2
+FROM --platform=linux/amd64 ruby:3.2.2
 ENV RAILS_ENV=production
 
 # yarnとnodejsのインストール
@@ -18,24 +18,27 @@ RUN apt update -qq \
     && apt install -y ${CHROME_PACKAGES} \
     && apt install -y ${CHROME_WEBDRIVER_PACKAGES}
 
+# edgedl.me.gvt1.com からchromeがダウンロードできなくなってしまったので、
+# dockerイメージの seleniarm/standalone-chromium:116.0-20230828 をコンテナとして設置する方向に変更
+
 # Chrome & Chrome Driverのインストール
-RUN CHROME_VERSION=`curl -sS https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE` \
-    && curl -sS -o /tmp/chrome-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chrome-linux64.zip \
-    && unzip -d /tmp /tmp/chrome-linux64.zip \
-    && mkdir -p /usr/local/lib/chrome \
-    && mv /tmp/chrome-linux64/* /usr/local/lib/chrome \
-    && ln -s /usr/local/lib/chrome/chrome /usr/local/bin/chrome \
-    && curl -sS -o /tmp/chromedriver-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip \
-    && unzip -d /tmp /tmp/chromedriver-linux64.zip \
-    && mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin
+# RUN CHROME_VERSION=`curl -sS https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE` \
+#     && curl -sS -o /tmp/chrome-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chrome-linux64.zip \
+#     && unzip -d /tmp /tmp/chrome-linux64.zip \
+#     && mkdir -p /usr/local/lib/chrome \
+#     && mv /tmp/chrome-linux64/* /usr/local/lib/chrome \
+#     && ln -s /usr/local/lib/chrome/chrome /usr/local/bin/chrome \
+#     && curl -sS -o /tmp/chromedriver-linux64.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip \
+#     && unzip -d /tmp /tmp/chromedriver-linux64.zip \
+#     && mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin
 
 # Seleniumのスクショが文字化けしないように日本語フォントをインストール
-RUN curl -sS -o /tmp/NotoSansCJKjp-hinted.zip https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip \
-    && unzip -d /tmp/NotoSansCJKjp-hinted /tmp/NotoSansCJKjp-hinted.zip \
-    && mkdir -p /usr/share/fonts/noto \
-    && cp /tmp/NotoSansCJKjp-hinted/*.otf /usr/share/fonts/noto/ \
-    && chmod 644 /usr/share/fonts/noto/*.otf \
-    && fc-cache -fv
+# RUN curl -sS -o /tmp/NotoSansCJKjp-hinted.zip https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip \
+#     && unzip -d /tmp/NotoSansCJKjp-hinted /tmp/NotoSansCJKjp-hinted.zip \
+#     && mkdir -p /usr/share/fonts/noto \
+#     && cp /tmp/NotoSansCJKjp-hinted/*.otf /usr/share/fonts/noto/ \
+#     && chmod 644 /usr/share/fonts/noto/*.otf \
+#     && fc-cache -fv
 
 # ファイルを全コピー
 WORKDIR /app
