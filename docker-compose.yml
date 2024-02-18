@@ -7,6 +7,9 @@ services:
       - ./src/db/mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
+    networks:
+      chengyu-net:
+
   web:
     build: .
     volumes:
@@ -16,15 +19,29 @@ services:
       - "3000:3000"
     environment:
       RAILS_ENV: development
+      SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     stdin_open: true
     tty: true
     depends_on:
       - db
     env_file:
       - .env
+    networks:
+      chengyu-net:
+
+  selenium_chrome:
+    image: seleniarm/standalone-chromium:116.0-20230828
+    networks:
+      chengyu-net:
+
   mailcatcher:
     image: schickling/mailcatcher
     container_name: mailcatcher
     ports:
       - '1080:1080'
       - '1025:1025'
+    networks:
+      chengyu-net:
+
+networks:
+  chengyu-net:

@@ -61,13 +61,24 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  # 動作モードのブラウザのドライバと設定指示
   config.before(:each, type: :system) do
-    driven_by :rack_test
+    driven_by :selenium, using: :rack_test, options: {
+      browser: :remote,
+      url: ENV.fetch('SELENIUM_DRIVER_URL')
+    }
   end
 
   config.before(:each, type: :system, js: true) do
-    driven_by :headless_chrome
+    driven_by :selenium, using: :headless_chrome, options: {
+      browser: :remote,
+      url: ENV.fetch('SELENIUM_DRIVER_URL')
+    }
   end
+
+  # Capybaraの設定
+  Capybara.server_host = 'web'
+  Capybara.server_port = '9999'
 
   # current_userを適用させるためにdeviseをRspecに導入
   config.include Devise::Test::IntegrationHelpers, type: :system
