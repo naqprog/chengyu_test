@@ -5,12 +5,12 @@ class Synonym < ApplicationRecord
   # 同義語チェック trueで判定OK(見つからなかった)
   def self.same_check(id_a, id_b)
     # synonymを全検索
-    tmp = Synonym.where(question_id: id_a).where(question_another_id: id_b)
+    tmp = Synonym.where("question_id LIKE ?", "%#{id_a}%").where("question_another_id LIKE ?", "%#{id_b}%")
     # tmpがnilじゃない＝見つかったらならNG
     return false if tmp.present?
 
     # synonymをidを入れ替えて全検索
-    tmp = Synonym.where(question_id: id_b).where(question_another_id: id_a)
+    tmp = Synonym.where("question_id LIKE ?", "%#{id_b}%").where("question_another_id LIKE ?", "%#{id_a}%")
     # tmpがnilならOKなのだから
     return false if tmp.present?
 
