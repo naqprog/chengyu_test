@@ -14,7 +14,8 @@ user_settings =  [
 
 # 出題用データ
 question_file_names = [
-  "db/seeds_data/question.csv"
+  "db/seeds_data/question.csv",
+  "db/seeds_data/question_2024-02-25_01.csv"
 ]
 
 # 類義語データ
